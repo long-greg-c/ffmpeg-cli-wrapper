@@ -1,6 +1,15 @@
 FFmpeg Java
 ===========
-by Andrew Brampton 2013-2014
+by Andrew Brampton 2013-2014, now upgraded dependencies and added additional parameters by Dean Gostiša 2015
+
+Released also to Maven Central:
+```xml
+<dependency>
+    <groupId>com.spikeify</groupId>
+    <artifactId>ffmpeg</artifactId>
+    <version>check for latest version</version>
+</dependency>
+````
 
 A fluent interface to running FFmpeg from Java.
 
