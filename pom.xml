@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.spikeify.ffmpeg</groupId>
+    <groupId>com.spikeify</groupId>
     <artifactId>ffmpeg</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
@@ -126,21 +126,7 @@
     </dependencies>
 
     <distributionManagement>
-        <!-- Local deployment -->
-        <repository>
-            <id>iddiction-nexus</id>
-            <name>Internal Nexus Repository for common libs</name>
-            <url>http://nexus.iddiction.com/content/repositories/releases</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <id>iddiction-nexus</id>
-            <name>Internal Snapshots</name>
-            <url>http://nexus.iddiction.com/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <!-- End of local deployment -->
         <!-- Central deployment -->
-        <!--
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -148,7 +134,7 @@
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>-->
+        </repository>
         <!-- End of central deployment -->
     </distributionManagement>
 
@@ -172,13 +158,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <!-- for production deployment -->
-                    <!-- <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl> -->
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <!-- end for production deployment -->
-                    <!-- for local deployment -->
-                    <serverId>iddiction-nexus</serverId>
-                    <nexusUrl>http://nexus.iddiction.com/</nexusUrl>
-                    <!-- end of for local deployment -->
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
