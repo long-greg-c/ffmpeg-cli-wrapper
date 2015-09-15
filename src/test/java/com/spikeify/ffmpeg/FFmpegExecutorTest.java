@@ -3,6 +3,7 @@ package com.spikeify.ffmpeg;
 import com.spikeify.ffmpeg.builder.FFmpegBuilder;
 import com.spikeify.ffmpeg.job.FFmpegJob;
 import com.spikeify.ffmpeg.probe.FFmpegProbeResult;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -75,5 +76,26 @@ public class FFmpegExecutorTest {
 				break;
 			} catch (TimeoutException e) {}
 		}
+	}
+
+	@Test
+	public void transcodeAudioToMp3WithoutMetadata() {
+		String inputPath = getClass().getResource("audio.m4a").getPath();
+		String outputPath = inputPath.replace(".m4a", "-output.mp3");
+		FFmpegBuilder builder = new FFmpegBuilder()
+				.setInput(inputPath)
+				.overrideOutputFiles(true)
+				.addOutput(outputPath)
+				.setAudioCodec("libmp3lame")
+				.setAudioBitRate(128)
+				.disableAudioMetadata()
+				.disableAudioLengthInMetadata()
+				.done();
+
+		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+		FFmpegJob job = executor.createJob(builder);
+		job.run();
+
+		Assert.assertEquals(job.getState(), FFmpegJob.State.FINISHED);
 	}
 }

@@ -43,6 +43,8 @@ public class FFmpegOutputBuilder implements Cloneable {
 	public String audio_bit_depth;
 	public int audio_bit_rate;
 	public int audio_quality;
+	public String map_metadata;
+	public String audio_write_xing;
 
 	public boolean video_enabled = true;
 	public String video_codec;
@@ -269,6 +271,29 @@ public class FFmpegOutputBuilder implements Cloneable {
 		return this;
 	}
 
+	/**
+	 * Set flag for disable  audio metadata
+	 *
+	 * @return this
+	 */
+	public FFmpegOutputBuilder disableAudioMetadata() {
+		this.audio_enabled = true;
+		this.map_metadata = "-1";
+		return this;
+	}
+
+	/**
+	 * Set flag for disable audio length in metadata
+	 * This is sometimes needed so that song length is detected correctly on Apple devices (OSX, IOS,...)
+	 *
+	 * @return this
+	 */
+	public FFmpegOutputBuilder disableAudioLengthInMetadata() {
+		this.audio_enabled = true;
+		this.audio_write_xing = "0";
+		return this;
+	}
+
 	public FFmpegOutputBuilder setAudioQuality(int quality) {
 		if (quality >= 1 && quality <= 5) {
 			this.audio_enabled = true;
@@ -456,6 +481,13 @@ public class FFmpegOutputBuilder implements Cloneable {
 
 			if (!Strings.isNullOrEmpty(audio_bit_depth)) {
 				args.add("-sample_fmt").add(audio_bit_depth);
+			}
+
+			if (!Strings.isNullOrEmpty(map_metadata)) {
+				args.add("-map_metadata").add(map_metadata);
+			}
+			if (!Strings.isNullOrEmpty(audio_write_xing)) {
+				args.add("-write_xing").add(audio_write_xing);
 			}
 
 			if (audio_bit_rate > 0 && audio_quality > 0 && throwWarnings) {
