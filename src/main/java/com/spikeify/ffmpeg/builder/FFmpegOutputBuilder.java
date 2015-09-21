@@ -122,9 +122,9 @@ public class FFmpegOutputBuilder implements Cloneable {
 	}
 
 	/**
-		set pass1 to a output-pass1.ext file instead of /dev/null
+	 * set pass1 to a output-pass1.ext file instead of /dev/null
 	 */
-	public FFmpegOutputBuilder setSavePass1(boolean setSavePass1){
+	public FFmpegOutputBuilder setSavePass1(boolean setSavePass1) {
 		this.save_pass1 = setSavePass1;
 		return this;
 	}
@@ -134,14 +134,14 @@ public class FFmpegOutputBuilder implements Cloneable {
 	}
 
 
-
 	/**
 	 * A preset is a collection of options that will provide a certain encoding speed to compression ratio.
 	 * A slower preset will provide better compression (compression is quality per filesize).
 	 * This means that, for example, if you target a certain file size or constant bit rate, you will achieve better quality with a slower preset.
 	 * Similarly, for constant quality encoding, you will simply save bitrate by choosing a slower preset.
+	 *
 	 * @param preset ultrafast,superfast, veryfast, faster, fast, medium, slow, slower, veryslow, placebo
-	 * @return
+	 * @return FFmpegOutputBuilder
 	 */
 	public FFmpegOutputBuilder setPreset(String preset) {
 		this.preset = checkNotNull(preset);
@@ -242,13 +242,13 @@ public class FFmpegOutputBuilder implements Cloneable {
 	}
 
 	/**
-	 *This method allows the encoder to attempt to achieve a certain output quality for the whole file when output file size is of less importance.
+	 * This method allows the encoder to attempt to achieve a certain output quality for the whole file when output file size is of less importance.
 	 * This provides maximum compression efficiency with a single pass.
 	 * Each frame gets the bitrate it needs to keep the requested quality level.
 	 * The downside is that you can't tell it to get a specific filesize or not go over a specific size or bitrate.
 	 */
 	public FFmpegOutputBuilder setConstantRateFactor(int contantRateFactor) {
-		if(contantRateFactor > 0){
+		if (contantRateFactor > 0) {
 			this.video_constant_rate_factor = contantRateFactor;
 		}
 		return this;
@@ -257,8 +257,9 @@ public class FFmpegOutputBuilder implements Cloneable {
 	/**
 	 * You can optionally use -video_tune to change settings based upon the specifics of your input.
 	 * For example, if your input is animation then use the animation tuning, or if you want to preserve grain then use the grain tuning.
-	 * @param video_tune: film, animation, grain, stillimage, psnr, ssim, fastdecode, zerolatency
-	 * @return
+	 *
+	 * @param video_tune film, animation, grain, stillimage, psnr, ssim, fastdecode, zerolatency
+	 * @return FFmpegOutputBuilder
 	 */
 	public FFmpegOutputBuilder setVideoTune(String video_tune) {
 		this.video_tune = checkNotNull(video_tune);
@@ -270,8 +271,9 @@ public class FFmpegOutputBuilder implements Cloneable {
 	 * Another optional setting is -profile:v which will limit the output to a specific H.264 profile.
 	 * This can generally be omitted unless the target device only supports a certain profile (see Compatibility).
 	 * Note that usage of -profile:v is incompatible with lossless encoding.
+	 *
 	 * @param profileV baseline, main, high, high10, high422, high444.
-	 * @return
+	 * @return FFmpegOutputBuilder
 	 */
 	public FFmpegOutputBuilder setVideoProfile(String profileV) {
 		this.video_profile_v = checkNotNull(profileV);
@@ -283,7 +285,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 	 * This will move some information to the beginning of your file and allow the video to begin playing before it is completely downloaded by the viewer.
 	 * It is not required if you are going to use a video service such as YouTube.
 	 */
-	public FFmpegOutputBuilder enableVideoFastStart(){
+	public FFmpegOutputBuilder enableVideoFastStart() {
 		this.video_fast_start = true;
 		return this;
 	}
@@ -512,7 +514,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 			args.add("-t").add(String.format("%.3f", duration / 1000f));
 		}
 
-		if(!Strings.isNullOrEmpty(preset)){
+		if (!Strings.isNullOrEmpty(preset)) {
 			args.add("-preset").add(preset);
 		}
 
@@ -543,7 +545,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 				args.add("-vf").add(video_filter);
 			}
 
-			if(video_constant_rate_factor > 0){
+			if (video_constant_rate_factor > 0) {
 				args.add("-crf").add(String.format("%d", video_constant_rate_factor));
 			}
 
@@ -555,10 +557,9 @@ public class FFmpegOutputBuilder implements Cloneable {
 				args.add("-profile:v").add(video_profile_v);
 			}
 
-			if(video_fast_start){
+			if (video_fast_start) {
 				args.add("-movflags").add("+faststart");
 			}
-
 
 
 		} else {
@@ -614,11 +615,11 @@ public class FFmpegOutputBuilder implements Cloneable {
 
 		// Output
 		if (pass == 1) {
-			if(save_pass1) {
+			if (save_pass1) {
 				String filenameWithoutExt = Files.getNameWithoutExtension(filename);
 				String ext = Files.getFileExtension(filename);
-				args.add(filename.replace(filenameWithoutExt + "." + ext, filenameWithoutExt + "-pass1." + ext) );
-			}else {
+				args.add(filename.replace(filenameWithoutExt + "." + ext, filenameWithoutExt + "-pass1." + ext));
+			} else {
 				args.add(DEVNULL);
 			}
 		} else {
