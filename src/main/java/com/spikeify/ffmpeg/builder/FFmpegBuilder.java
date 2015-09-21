@@ -38,6 +38,7 @@ public class FFmpegBuilder {
 	public boolean override = true;
 	public int pass = 0;
 	public String pass_prefix;
+	public boolean enable_logging;
 
 	// Input settings
 	public Long startOffset; // in millis
@@ -87,6 +88,16 @@ public class FFmpegBuilder {
 		return this;
 	}
 
+
+	/**
+	 * enable or disable logging with multiple passes.
+	 */
+	public FFmpegBuilder enableMultipassLogging(boolean enableLogging){
+		enable_logging = enableLogging;
+		return this;
+
+	}
+
 	/**
 	 * Create new output file
 	 *
@@ -124,7 +135,7 @@ public class FFmpegBuilder {
 		if (pass > 0) {
 			args.add("-pass").add(Integer.toString(pass));
 
-			if (pass_prefix != null) {
+			if (pass_prefix != null && enable_logging) {
 				args.add("-passlogfile").add(pass_prefix);
 			}
 		}

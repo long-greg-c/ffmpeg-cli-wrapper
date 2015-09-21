@@ -139,4 +139,70 @@ public class FFmpegBuilderTest {
 		FFmpegBuilder builder = new FFmpegBuilder();
 		builder.build();
 	}
+
+	@Test
+	public void customVideoArguments() {
+		List<String> args = new FFmpegBuilder()
+						.setInput("input.mp4")
+						.addOutput("output.mp4")
+						.setAudioCodec("libvo_aacenc")
+						.setAudioBitRate(128)
+						.setVideoCodec("libx264")
+						.setConstantRateFactor(28)
+						.setVideoTune("zerolatency")
+						.setPreset("veryslow")
+						.setVideoProfile("high")
+						.setVideoFilter("scale=540x960")
+						.enableVideoFastStart()
+						.done()
+						.build();
+
+		assertThat(args, is(Arrays.asList("-y", "-v", "error",
+						"-i", "input.mp4",
+						"-preset", "veryslow",
+						"-vcodec", "libx264",
+						"-vf", "scale=540x960",
+						"-crf", "28",
+						"-tune", "zerolatency",
+						"-profile:v", "high",
+						"-movflags", "+faststart", //enableVideoFastStart
+						"-acodec", "libvo_aacenc",
+						"-b:a", "128k",
+						"output.mp4")));
+	}
+
+
+	@Test
+	public void customVideoArgumentsWithPass() {
+		List<String> args = new FFmpegBuilder()
+						.setPass(1)
+						.setInput("input.mp4")
+						.addOutput("output.mp4")
+						.setAudioCodec("libvo_aacenc")
+						.setAudioBitRate(128)
+						.setVideoCodec("libx264")
+						.setConstantRateFactor(28)
+						.setVideoTune("zerolatency")
+						.setPreset("veryslow")
+						.setVideoProfile("high")
+						.setVideoFilter("scale=140x160")
+						.enableVideoFastStart()
+						.setSavePass1(true)
+						.done()
+						.build();
+
+		assertThat(args, is(Arrays.asList("-y", "-v", "error",
+						"-i", "input.mp4",
+						"-pass", "1",
+						"-preset", "veryslow",
+						"-vcodec", "libx264",
+						"-vf", "scale=140x160",
+						"-crf", "28",
+						"-tune", "zerolatency",
+						"-profile:v", "high",
+						"-movflags", "+faststart", //enableVideoFastStart
+						"-an",
+						"output-pass1.mp4")));
+
+	}
 }

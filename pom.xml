@@ -40,6 +40,11 @@
             <email>dean@black.si</email>
             <id>dincek</id>
         </developer>
+        <developer>
+            <name>Roman Orač</name>
+            <email>orac.roman@gmail.com</email>
+            <id>oracroman</id>
+        </developer>
     </developers>
 
     <properties>
