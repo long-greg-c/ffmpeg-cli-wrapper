@@ -297,7 +297,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 	 *
 	 * @param tumbnailPath - name of a tumbnail file. If numTumbnails > 1, tumbnailPath should be in a format: tumbnail%03d.jpg.
 	 * @param numTumbnails - number of tumbnails to output
-	 * @return
+	 * @return FFmpegOutputBuilder
 	 */
 	public FFmpegOutputBuilder setVideoTumbnails(String tumbnailPath, int numTumbnails) {
 		this.video_tumbnail_path = tumbnailPath;
