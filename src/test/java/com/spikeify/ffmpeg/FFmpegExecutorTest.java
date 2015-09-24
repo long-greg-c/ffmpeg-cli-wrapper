@@ -68,20 +68,33 @@ public class FFmpegExecutorTest {
 	}
 
 	@Test
-	public void testCreateTumbnail() throws InterruptedException, ExecutionException, IOException {
+	public void testCreateThumbnail() throws InterruptedException, ExecutionException, IOException {
 		String input = getClass().getResource("video.mp4").getPath();
 
 		FFmpegBuilder builder = new FFmpegBuilder()
 						.setInput(input)
 						.overrideOutputFiles(true)
 						.addOutput(input.replace(".mp4", "-out.mp4"))
-						.setVideoTumbnails("video_firstTumbnail.jpg", 1)
 						.done();
 
 		FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-
 		FFmpegJob job = executor.createJob(builder);
 		runAndWait(job);
+
+
+		builder = new FFmpegBuilder()
+						.setInput(input.replace(".mp4", "-out.mp4"))
+						.overrideOutputFiles(true)
+						.setVideoTumbnails(1)
+						.addOutput(input.replace(".mp4", "-out.jpg"))
+						.done();
+
+		executor = new FFmpegExecutor(ffmpeg, ffprobe);
+
+
+		job = executor.createJob(builder);
+		runAndWait(job);
+
 		Assert.assertEquals(job.getState(), FFmpegJob.State.FINISHED);
 	}
 

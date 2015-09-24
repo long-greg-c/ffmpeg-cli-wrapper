@@ -44,12 +44,24 @@ public class FFmpegBuilder {
 	public Long startOffset; // in millis
 	public String input;
 	public FFmpegProbeResult inputProbe;
+	public int video_num_thumbnails = 0;
 
 	// Output
 	public List<FFmpegOutputBuilder> outputs = new ArrayList<FFmpegOutputBuilder>();
 
 	public FFmpegBuilder overrideOutputFiles(boolean override) {
 		this.override = override;
+		return this;
+	}
+
+	/**
+	 * create tumbnails from a video
+	 *
+	 * @param numThumbnails - number of tumbnails to output
+	 * @return FFmpegOutputBuilder
+	 */
+	public FFmpegBuilder setVideoTumbnails(int numThumbnails) {
+		this.video_num_thumbnails = numThumbnails;
 		return this;
 	}
 
@@ -138,6 +150,10 @@ public class FFmpegBuilder {
 			if (pass_prefix != null && enable_logging) {
 				args.add("-passlogfile").add(pass_prefix);
 			}
+		}
+
+		if(video_num_thumbnails > 0){
+			args.add("-vframes").add(String.format("%d", video_num_thumbnails));
 		}
 
 		for (FFmpegOutputBuilder output : this.outputs) {

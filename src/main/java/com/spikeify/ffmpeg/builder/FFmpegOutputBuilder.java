@@ -62,8 +62,6 @@ public class FFmpegOutputBuilder implements Cloneable {
 	public String video_tune;
 	public String video_profile_v;
 	public boolean video_fast_start;
-	public String video_tumbnail_path;
-	public int video_num_tumbnails;
 
 	public boolean subtitle_enabled = true;
 
@@ -291,21 +289,6 @@ public class FFmpegOutputBuilder implements Cloneable {
 		this.video_fast_start = true;
 		return this;
 	}
-
-	/**
-	 * create tumbnails from a video
-	 *
-	 * @param tumbnailPath - name of a tumbnail file. If numTumbnails > 1, tumbnailPath should be in a format: tumbnail%03d.jpg.
-	 * @param numTumbnails - number of tumbnails to output
-	 * @return FFmpegOutputBuilder
-	 */
-	public FFmpegOutputBuilder setVideoTumbnails(String tumbnailPath, int numTumbnails) {
-		this.video_tumbnail_path = tumbnailPath;
-		this.video_num_tumbnails = numTumbnails;
-		return this;
-	}
-
-
 
 	public FFmpegOutputBuilder setAudioCodec(String codec) {
 		if (codec != null) {
@@ -575,10 +558,6 @@ public class FFmpegOutputBuilder implements Cloneable {
 
 			if (video_fast_start) {
 				args.add("-movflags").add("+faststart");
-			}
-
-			if(!Strings.isNullOrEmpty(video_tumbnail_path)){
-				args.add("-vframes").add(String.format("%d", video_num_tumbnails)).add(String.format("%s", video_tumbnail_path));
 			}
 
 
