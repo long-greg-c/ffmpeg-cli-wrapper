@@ -18,8 +18,11 @@
 
 package com.spikeify.ffmpeg.colorthief;
 
+import org.apache.commons.io.IOUtils;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -37,23 +40,53 @@ public class ColorThiefTest {
 		return img;
 	}
 
-	public static void main(String[] args) throws IOException {
+	private static String imageBytesToHex(String path) {
+		InputStream is = ColorThiefTest.class.getResourceAsStream(path);
+
+		byte[] bytes = new byte[0];
+		try {
+			bytes = IOUtils.toByteArray(is);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(stream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String dominantHex = ColorThief.getDominantHex(bufferedImage, 1, true);
+
+		return dominantHex;
+	}
+
+	public static void main(String[] args) throws IOException, Exception {
 		printStyleHeader();
 		test("photo1.jpg");
 		test("photo2.jpg");
 		test("photo3.jpg");
 
-		testStringHex("photo1.jpg");
-		testStringHex("photo2.jpg");
-		testStringHex("photo3.jpg");
+
+		if(!testStringHex("photo1.jpg").equalsIgnoreCase(imageBytesToHex("photo1.jpg"))){
+			throw new Exception("hex colors are not the same");
+		}
+		if(!testStringHex("photo2.jpg").equalsIgnoreCase(imageBytesToHex("photo2.jpg"))){
+			throw new Exception("hex colors are not the same");
+		}
+
+		if(!testStringHex("photo3.jpg").equalsIgnoreCase(imageBytesToHex("photo3.jpg"))){
+			throw new Exception("hex colors are not the same");
+		}
 
 	}
 
-	private static void testStringHex(String pathname) throws IOException {
+	private static String testStringHex(String pathname) throws IOException {
 		BufferedImage img = readImageFrom(pathname);
 		String hex = ColorThief.getDominantHex(img, 1, true);
 
-		System.out.println(pathname + " " + hex);
+		return hex;
 
 	}
 
