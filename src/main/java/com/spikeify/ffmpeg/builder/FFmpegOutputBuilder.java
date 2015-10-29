@@ -10,6 +10,7 @@ import com.spikeify.ffmpeg.options.EncodingOptions;
 import com.spikeify.ffmpeg.options.MainEncodingOptions;
 import com.spikeify.ffmpeg.options.VideoEncodingOptions;
 import com.spikeify.ffmpeg.probe.FFmpegProbeResult;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.math.Fraction;
 
@@ -61,6 +62,8 @@ public class FFmpegOutputBuilder implements Cloneable {
 	public int video_constant_rate_factor;
 	public String video_tune;
 	public String video_profile_v;
+	public String audio_bit_stream_filter;
+	public String custom_parameter;
 	public boolean video_fast_start;
 
 	public boolean subtitle_enabled = true;
@@ -264,7 +267,6 @@ public class FFmpegOutputBuilder implements Cloneable {
 	public FFmpegOutputBuilder setVideoTune(String video_tune) {
 		this.video_tune = checkNotNull(video_tune);
 		return this;
-
 	}
 
 	/**
@@ -350,6 +352,17 @@ public class FFmpegOutputBuilder implements Cloneable {
 	}
 
 	/**
+	 * Another optional setting for -bsf:a which gives you ability to set Audio bit stream filter (used for fixing TS audio stream).
+	 *
+	 * @param audioBitstreamFilter aac_adtstoasc, etc.
+	 * @return FFmpegOutputBuilder
+	 */
+	public FFmpegOutputBuilder setAudioBitstreamFilter(String audioBitstreamFilter) {
+		this.audio_bit_stream_filter = audioBitstreamFilter;
+		return this;
+	}
+
+	/**
 	 * Set flag for disable  audio metadata
 	 *
 	 * @return this
@@ -390,6 +403,17 @@ public class FFmpegOutputBuilder implements Cloneable {
 		if (targetSize > 0) {
 			this.targetSize = targetSize;
 		}
+		return this;
+	}
+
+	/**
+	 * Optional custom parameter passing to FFMPEG command line
+	 *
+	 * @param customParameter Custom parameter
+	 * @return FFmpegOutputBuilder
+	 */
+	public FFmpegOutputBuilder setCustomParameter(String customParameter) {
+		this.custom_parameter = customParameter;
 		return this;
 	}
 
@@ -598,6 +622,10 @@ public class FFmpegOutputBuilder implements Cloneable {
 				args.add("-b:a").add(String.format("%dk", audio_bit_rate));
 			}
 
+			if (!Strings.isNullOrEmpty(audio_bit_stream_filter)) {
+				args.add("-bsf:a").add(audio_bit_stream_filter);
+			}
+
 			if (audio_quality > 0) {
 				args.add("-aq").add(String.format("%d", audio_quality));
 			}
@@ -606,11 +634,17 @@ public class FFmpegOutputBuilder implements Cloneable {
 			args.add("-an");
 		}
 
-		if (!subtitle_enabled)
+		if (!subtitle_enabled) {
 			args.add("-sn");
+		}
 
-		if (loop != null)
+		if (loop != null) {
 			args.add("-loop").add(String.valueOf(loop));
+		}
+
+		if (!Strings.isNullOrEmpty(custom_parameter)) {
+			args.add(custom_parameter);
+		}
 
 		// Output
 		if (pass == 1) {
