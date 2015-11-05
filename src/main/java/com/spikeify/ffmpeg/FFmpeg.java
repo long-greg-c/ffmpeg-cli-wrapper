@@ -134,6 +134,7 @@ public class FFmpeg {
 
 			BufferedReader r = runFunc(ImmutableList.of(path, "-formats"));
 			while ((line = r.readLine()) != null) {
+				LOG.info(line);
 				Matcher m = FORMATS_REGEX.matcher(line);
 				if (!m.matches())
 					continue;
@@ -152,6 +153,11 @@ public class FFmpeg {
 		if (reader == null) {
 			throw new RuntimeException("RunProcessFunction returned null");
 		}
+		String line;
+		while ((line = reader.readLine()) != null) {
+			LOG.info(line);
+		}
+
 		return reader;
 	}
 
