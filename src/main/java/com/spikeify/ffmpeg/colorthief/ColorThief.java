@@ -46,15 +46,16 @@ public class ColorThief {
 	}
 
 	private static String convertRGBHexString(int[] rgb) {
-		String rgbHex = Integer
-						.toHexString(rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
+		String rgbHex = "F2F2F2";//default color
+		if(rgb != null) {
+			rgbHex = Integer.toHexString(rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
 
-		// Left-pad with 0s
-		int length = rgbHex.length();
-		if (length < 6) {
-			rgbHex = "00000".substring(0, 6 - length) + rgbHex;
+			// Left-pad with 0s
+			int length = rgbHex.length();
+			if (length < 6) {
+				rgbHex = "00000".substring(0, 6 - length) + rgbHex;
+			}
 		}
-
 		return "#" + rgbHex;
 
 	}
