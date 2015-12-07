@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -48,6 +49,11 @@ public class FFmpegBuilder {
 
 	// Output
 	public List<FFmpegOutputBuilder> outputs = new ArrayList<FFmpegOutputBuilder>();
+
+	//sticher
+	public boolean isSticher;
+	public ImmutableList.Builder<String> sticherArgs;
+
 
 	public FFmpegBuilder overrideOutputFiles(boolean override) {
 		this.override = override;
@@ -100,11 +106,10 @@ public class FFmpegBuilder {
 		return this;
 	}
 
-
 	/**
 	 * enable or disable logging with multiple passes.
 	 */
-	public FFmpegBuilder enableMultipassLogging(boolean enableLogging){
+	public FFmpegBuilder enableMultipassLogging(boolean enableLogging) {
 		enable_logging = enableLogging;
 		return this;
 
@@ -130,35 +135,39 @@ public class FFmpegBuilder {
 	}
 
 	public List<String> build() {
-		ImmutableList.Builder<String> args = new ImmutableList.Builder<String>();
+		ImmutableList.Builder<String> args;
+		if (isSticher) {
+			args = sticherArgs;
 
-		Preconditions.checkArgument(input != null, "Input must be specified");
-		Preconditions.checkArgument(!outputs.isEmpty(), "At least one output must be specified");
+		} else {
+			args = new ImmutableList.Builder<String>();
+			Preconditions.checkArgument(input != null, "Input must be specified");
+			args.add("-v", "error"); // TODO make configurable
 
-		args.add(override ? "-y" : "-n");
-		args.add("-v", "error"); // TODO make configurable
+			if (startOffset != null) {
+				args.add("-ss").add(String.format("%.3f", startOffset / 1000f));
+			}
 
-		if (startOffset != null) {
-			args.add("-ss").add(String.format("%.3f", startOffset / 1000f));
-		}
+			args.add("-i").add(input);
 
-		args.add("-i").add(input);
+			if (pass > 0) {
+				args.add("-pass").add(Integer.toString(pass));
 
-		if (pass > 0) {
-			args.add("-pass").add(Integer.toString(pass));
+				if (pass_prefix != null && enable_logging) {
+					args.add("-passlogfile").add(pass_prefix);
+				}
+			}
 
-			if (pass_prefix != null && enable_logging) {
-				args.add("-passlogfile").add(pass_prefix);
+			if (video_num_thumbnails > 0) {
+				args.add("-vframes").add(String.format("%d", video_num_thumbnails));
 			}
 		}
-
-		if(video_num_thumbnails > 0){
-			args.add("-vframes").add(String.format("%d", video_num_thumbnails));
-		}
-
+		args.add(override ? "-y" : "-n");
+		Preconditions.checkArgument(!outputs.isEmpty(), "At least one output must be specified");
 		for (FFmpegOutputBuilder output : this.outputs) {
 			args.addAll(output.build(pass));
 		}
+
 
 		return args.build();
 	}
