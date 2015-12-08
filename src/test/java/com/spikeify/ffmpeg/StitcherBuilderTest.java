@@ -15,12 +15,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class StitcherTest {
+public class StitcherBuilderTest {
 
 	FFmpeg ffmpeg = new FFmpeg();
 	FFprobe ffprobe = new FFprobe();
 
-	public StitcherTest() throws IOException {}
+	public StitcherBuilderTest() throws IOException {}
 
 	@Test
 	public void testStitchVideos() throws IOException {
@@ -32,14 +32,14 @@ public class StitcherTest {
 		//settings for video 1
 		FadeIn fadeIn1 = new FadeIn(0, 1);
 		FadeOut fadeOut1 = new FadeOut(1, 1);
-		Caption caption1 = new Caption("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30);
+		Caption caption1 = new Caption("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY().setTextMovingSpeed(7).setStartPositionOffset(100);
 		VideoObject videoObject1 = new VideoObject(input).setFadeIn(fadeIn1).setFadeOut(fadeOut1).setCaption(caption1);
 		videoObjectList.add(videoObject1);
 
 		//settings for video 2
 		FadeIn fadeIn2 = new FadeIn(0, 1);
 		FadeOut fadeOut2 = new FadeOut(1, 1);
-		Caption caption2 = new Caption("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30);
+		Caption caption2 = new Caption("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY().setTextMovingSpeed(7).setStartPositionOffset(100);
 		VideoObject videoObject2 = new VideoObject(input).setFadeIn(fadeIn2).setFadeOut(fadeOut2).setCaption(caption2);
 		videoObjectList.add(videoObject2);
 

@@ -1,18 +1,19 @@
 package com.spikeify.ffmpeg.builder;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.spikeify.ffmpeg.builder.elements.Caption;
 import com.spikeify.ffmpeg.builder.elements.VideoObject;
 
 import java.util.List;
 
-public class Stitcher {
+public class StitcherBuilder {
 
 	private FFmpegBuilder parent;
 
 	private List<VideoObject> videoObjectList;
 
-	protected Stitcher(FFmpegBuilder parent, List<VideoObject> videoObjectList) {
+	protected StitcherBuilder(FFmpegBuilder parent, List<VideoObject> videoObjectList) {
 		this.videoObjectList = videoObjectList;
 		this.parent = parent;
 	}
@@ -47,6 +48,7 @@ public class Stitcher {
 
 					String audioOperation = "", videoFadeIn = "", audioFadeIn = "", videoFadeOut = "", audioFadeOut = "";
 
+					//set caption
 					if (videoObject.getCaption() != null) {
 						Caption caption = videoObject.getCaption();
 						String captionOperation = ", drawtext=fontfile=" + caption.getFontPath() + ":text='" + caption.getText() + "'";
@@ -60,11 +62,20 @@ public class Stitcher {
 						}
 
 						if(caption.getX() > -1){
-							captionOperation +=":x=" + String.valueOf(caption.getX());
+							if(caption.isMovingByX()){
+								captionOperation += ":x=mod(n*" + caption.getMovingSpeed() + "\\, W+ "+ String.valueOf(caption.getStartPositionOffset())+") - " + String.valueOf(caption.getStartPositionOffset());
+							}else{
+								captionOperation +=":x=" + String.valueOf(caption.getX());
+							}
+
 						}
 
 						if(caption.getY() > -1){
-							captionOperation +=":y=" + String.valueOf(caption.getY());
+							if(caption.isMovingByY()){
+								captionOperation += ":y=mod(n*" + caption.getMovingSpeed() + "\\, H+"+ String.valueOf(caption.getStartPositionOffset())+") - " + String.valueOf(caption.getStartPositionOffset());
+							}else {
+								captionOperation += ":y=" + String.valueOf(caption.getY());
+							}
 						}
 
 

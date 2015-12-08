@@ -9,8 +9,11 @@ public class Caption {
 	private int x = -1;
 	private int y = -1;
 
+
 	private boolean movingByX;
 	private boolean movingByY;
+	private double movingSpeed = 1.0;
+	private double startPositionOffset = 0;
 
 	private TextBox textBox;
 
@@ -40,18 +43,28 @@ public class Caption {
 		return this;
 	}
 
-	public Caption setMovingByX(boolean movingByX) {
-		this.movingByX = movingByX;
+	public Caption setMovingByX() {
+		this.movingByX = true;
 		return this;
 	}
 
-	public Caption setMovingByY(boolean movingByY) {
-		this.movingByY = movingByY;
+	public Caption setMovingByY() {
+		this.movingByY = true;
 		return this;
 	}
 
 	public Caption setTextBox(TextBox textBox) {
 		this.textBox = textBox;
+		return this;
+	}
+
+	public Caption setTextMovingSpeed(double movingSpeed){
+		this.movingSpeed = movingSpeed;
+		return this;
+	}
+
+	public Caption setStartPositionOffset(double startPositionOffset) {
+		this.startPositionOffset = startPositionOffset;
 		return this;
 	}
 
@@ -89,5 +102,13 @@ public class Caption {
 
 	public TextBox getTextBox() {
 		return textBox;
+	}
+
+	public double getMovingSpeed() {
+		return movingSpeed;
+	}
+
+	public double getStartPositionOffset() {
+		return startPositionOffset;
 	}
 }

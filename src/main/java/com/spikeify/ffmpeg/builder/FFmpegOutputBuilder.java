@@ -132,8 +132,8 @@ public class FFmpegOutputBuilder implements Cloneable {
 		return this;
 	}
 
-	public Stitcher stitchVideos(List<VideoObject> videoObjectList) {
-		return new Stitcher(this.parent, videoObjectList);
+	public StitcherBuilder stitchVideos(List<VideoObject> videoObjectList) {
+		return new StitcherBuilder(this.parent, videoObjectList);
 	}
 
 	public String getFilename() {
