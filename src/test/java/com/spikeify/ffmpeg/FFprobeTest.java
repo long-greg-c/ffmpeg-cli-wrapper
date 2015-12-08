@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class FFprobeTest {
 
-	final static String MEDIA_PATH = "/home/bramp/personal/ffmpeg/samples/";
+	final static String MEDIA_PATH = "/Users/hiphop/Documents/stitching/";
 	final static Gson gson = new Gson();
 
 	FFprobe ffprobe;
@@ -21,7 +21,8 @@ public class FFprobeTest {
 
 	@Test
 	public void testProbe() throws IOException {
-		FFmpegProbeResult info = ffprobe.probe(MEDIA_PATH + "mobileedge_1280x720.mp4");
+		FFmpegProbeResult info = ffprobe.probe(MEDIA_PATH + "livecaptv.mp4");
+		System.out.println(info.format.duration);
 		System.out.println(gson.toJson(info));
 	}
 

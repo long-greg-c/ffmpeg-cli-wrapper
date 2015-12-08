@@ -45,7 +45,7 @@ public class FFmpegBuilderTest {
 
 		List<String> args = builder.build();
 		assertThat(args, is(Arrays.asList(
-            "-y", "-v", "error", "-ss", "1.500", "-i", "input",
+            "-v", "error", "-ss", "1.500", "-i", "input", "-y",
                 "-f", "mp4", "-ss", "0.500",
                 "-vcodec", "libx264", "-s", "320x240", "-r", "30/1",
                 "-acodec", "aac", "-ac", "1", "-ar", "48000",
@@ -65,7 +65,7 @@ public class FFmpegBuilderTest {
 				.done();
 
 		List<String> args = builder.build();
-		assertThat(args, is(Arrays.asList("-y", "-v", "error", "-i", "input", "-vn", "-an", "-sn", "output")));
+		assertThat(args, is(Arrays.asList("-v", "error", "-i", "input", "-y",  "-vn", "-an", "-sn", "output")));
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class FFmpegBuilderTest {
 				.done();
 
 		List<String> args = builder.build();
-		assertThat(args, is(Arrays.asList("-y", "-v", "error", "-i", "input", "-vf", "scale='trunc(ow/a/2)*2:320'", "-an", "-sn", "output")));
+		assertThat(args, is(Arrays.asList("-v", "error", "-i", "input", "-y", "-vf", "scale='trunc(ow/a/2)*2:320'", "-an", "-sn", "output")));
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ public class FFmpegBuilderTest {
 				.done();
 
 		List<String> args = builder.build();
-		assertThat(args, is(Arrays.asList("-y", "-v", "error", "-i", "input", "-s", "320x240", "-vf", "scale='trunc(ow/a/2)*2:320'", "output")));
+		assertThat(args, is(Arrays.asList("-v", "error", "-i", "input", "-y", "-s", "320x240", "-vf", "scale='trunc(ow/a/2)*2:320'", "output")));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class FFmpegBuilderTest {
 				.done()
 			.build();
 
-		assertThat(args, is(Arrays.asList("-y", "-v", "error", "-i", "input", "-s", "320x240", "output1", "-s", "640x480", "output2")));
+		assertThat(args, is(Arrays.asList("-v", "error", "-i", "input", "-y", "-s", "320x240", "output1", "-s", "640x480", "output2")));
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -157,8 +157,8 @@ public class FFmpegBuilderTest {
 						.done()
 						.build();
 
-		assertThat(args, is(Arrays.asList("-y", "-v", "error",
-						"-i", "input.mp4",
+		assertThat(args, is(Arrays.asList("-v", "error",
+						"-i", "input.mp4","-y",
 						"-preset", "veryslow",
 						"-vcodec", "libx264",
 						"-vf", "scale=540x960",
@@ -191,9 +191,9 @@ public class FFmpegBuilderTest {
 						.done()
 						.build();
 
-		assertThat(args, is(Arrays.asList("-y", "-v", "error",
+		assertThat(args, is(Arrays.asList("-v", "error",
 						"-i", "input.mp4",
-						"-pass", "1",
+						"-pass", "1", "-y",
 						"-preset", "veryslow",
 						"-vcodec", "libx264",
 						"-vf", "scale=140x160",

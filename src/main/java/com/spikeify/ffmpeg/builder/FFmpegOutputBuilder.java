@@ -4,13 +4,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Files;
+import com.spikeify.ffmpeg.builder.elements.VideoObject;
 import com.spikeify.ffmpeg.modelmapper.Mapper;
 import com.spikeify.ffmpeg.options.AudioEncodingOptions;
 import com.spikeify.ffmpeg.options.EncodingOptions;
 import com.spikeify.ffmpeg.options.MainEncodingOptions;
 import com.spikeify.ffmpeg.options.VideoEncodingOptions;
 import com.spikeify.ffmpeg.probe.FFmpegProbeResult;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.math.Fraction;
 
@@ -133,7 +133,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 	}
 
 	public Stitcher stitchVideos(List<VideoObject> videoObjectList) {
-		return new Stitcher(this, videoObjectList);
+		return new Stitcher(this.parent, videoObjectList);
 	}
 
 	public String getFilename() {

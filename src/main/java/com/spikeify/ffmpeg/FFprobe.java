@@ -4,12 +4,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.spikeify.commons.lang3.math.gson.FractionAdapter;
+import com.spikeify.ffmpeg.builder.elements.VideoObject;
 import com.spikeify.ffmpeg.probe.FFmpegProbeResult;
 import org.apache.commons.lang3.math.Fraction;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Wrapper around FFprobe
@@ -65,4 +67,32 @@ public class FFprobe {
 		BufferedReader reader = runFunc.run(args.build());
 		return gson.fromJson(reader, FFmpegProbeResult.class);
 	}
+
+
+	public void setDuration(List<VideoObject> videoObjectList) throws IOException {
+		for (VideoObject videoObject: videoObjectList){
+			if(videoObject != null && videoObject.getPath() != null){
+				ImmutableList.Builder<String> args = new ImmutableList.Builder<String>();
+
+				args.add(path)
+						.add("-v", "quiet")
+						.add("-print_format", "json")
+						.add("-show_error")
+						.add("-show_format")
+						.add("-show_streams")
+						.add(videoObject.getPath());
+
+				BufferedReader reader = runFunc.run(args.build());
+				FFmpegProbeResult fFmpegProbeResult = gson.fromJson(reader, FFmpegProbeResult.class);
+				if(fFmpegProbeResult != null && fFmpegProbeResult.getFormat() != null){
+					videoObject.setStartTime(fFmpegProbeResult.getFormat().start_time);
+					videoObject.setVideoDuration(fFmpegProbeResult.getFormat().duration);
+				}
+
+			}
+		}
+
+	}
+
+
 }
