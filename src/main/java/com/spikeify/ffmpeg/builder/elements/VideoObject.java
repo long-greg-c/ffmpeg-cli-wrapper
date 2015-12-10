@@ -1,67 +1,82 @@
 package com.spikeify.ffmpeg.builder.elements;
 
+import java.util.List;
+
 public class VideoObject {
 
-	private String path;
-	private double duration;
-	private double startTime;
-	private FadeIn fadeIn;
+	private String path; //video path
+	private double start = -1; //video start time
+	private double end = -1; //video end time
+
+	private FadeIn fadeInBuilder;
 	private FadeOut fadeOut;
+
+	private List<Caption> captions;
 	private Caption caption;
 
-	//constructor
-	public VideoObject(String videoPath){
-		this.path = videoPath;
-	}
-
-	//optional arguments
-	public VideoObject setFadeIn(FadeIn fadeIn) {
-		this.fadeIn = fadeIn;
-		return this;
-	}
-
-	public VideoObject setFadeOut(FadeOut fadeOut) {
+	VideoObject(String path, double start, double end, FadeIn fadeInBuilder, FadeOut fadeOut, List<Caption> captions, Caption caption) {
+		this.path = path;
+		this.start = start;
+		this.end = end;
+		this.fadeInBuilder = fadeInBuilder;
 		this.fadeOut = fadeOut;
-		return this;
-	}
-
-	public VideoObject setCaption(Caption caption){
+		this.captions = captions;
 		this.caption = caption;
-		return this;
 	}
 
-
-	//setters
-	public void setVideoDuration(double videoDuration) {
-		this.duration = videoDuration;
-	}
-
-	public void setStartTime(double videoStartTime) {
-		this.startTime = videoStartTime;
-	}
-
-	//getters
 	public String getPath() {
 		return path;
 	}
 
-	public FadeIn getFadeIn() {
-		return fadeIn;
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public double getStart() {
+		return start;
+	}
+
+	public void setStart(double start) {
+		this.start = start;
+	}
+
+	public double getEnd() {
+		return end;
+	}
+
+	public void setEnd(double end) {
+		this.end = end;
+	}
+
+	public FadeIn getFadeInBuilder() {
+		return fadeInBuilder;
+	}
+
+	public void setFadeInBuilder(FadeIn fadeInBuilder) {
+		this.fadeInBuilder = fadeInBuilder;
 	}
 
 	public FadeOut getFadeOut() {
 		return fadeOut;
 	}
 
-	public double getStartTime() {
-		return startTime;
+	public void setFadeOut(FadeOut fadeOut) {
+		this.fadeOut = fadeOut;
 	}
 
-	public double getDuration() {
-		return duration;
+	public List<Caption> getCaptions() {
+		return captions;
+	}
+
+	public void setCaptions(List<Caption> captions) {
+		this.captions = captions;
 	}
 
 	public Caption getCaption() {
 		return caption;
+	}
+
+	public void setCaption(Caption caption) {
+		this.caption = caption;
 	}
 }

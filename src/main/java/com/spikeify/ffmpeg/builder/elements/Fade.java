@@ -4,7 +4,7 @@ public class Fade {
 
 	private double duration;
 
-	public Fade(double duration) {
+	Fade(double duration) {
 		this.duration = duration;
 	}
 

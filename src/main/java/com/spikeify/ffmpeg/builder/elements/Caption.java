@@ -14,101 +14,128 @@ public class Caption {
 	private boolean movingByY;
 	private double movingSpeed = 1.0;
 	private double startPositionOffset = 0;
+	private boolean repeatX;
+	private boolean repeatY;
 
 	private TextBox textBox;
 
-
-	public Caption(String fontPath, String text) {
+	Caption(String text, String color, String fontPath, int size, int x, int y, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, TextBox textBox) {
 		this.text = text;
-		this.fontPath = fontPath;
-	}
-
-	public Caption setColor(String color) {
 		this.color = color;
-		return this;
-	}
-
-	public Caption setSize(int size) {
+		this.fontPath = fontPath;
 		this.size = size;
-		return this;
-	}
-
-	public Caption setX(int x) {
 		this.x = x;
-		return this;
-	}
-
-	public Caption setY(int y) {
 		this.y = y;
-		return this;
-	}
-
-	public Caption setMovingByX() {
-		this.movingByX = true;
-		return this;
-	}
-
-	public Caption setMovingByY() {
-		this.movingByY = true;
-		return this;
-	}
-
-	public Caption setTextBox(TextBox textBox) {
-		this.textBox = textBox;
-		return this;
-	}
-
-	public Caption setTextMovingSpeed(double movingSpeed){
+		this.movingByX = movingByX;
+		this.movingByY = movingByY;
 		this.movingSpeed = movingSpeed;
-		return this;
-	}
-
-	public Caption setStartPositionOffset(double startPositionOffset) {
 		this.startPositionOffset = startPositionOffset;
-		return this;
+		this.repeatX = repeatX;
+		this.repeatY = repeatY;
+		this.textBox = textBox;
 	}
 
 	public String getText() {
 		return text;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public String getColor() {
 		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public String getFontPath() {
 		return fontPath;
 	}
 
+	public void setFontPath(String fontPath) {
+		this.fontPath = fontPath;
+	}
+
 	public int getSize() {
 		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	public int getX() {
 		return x;
 	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
 	public int getY() {
 		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	public boolean isMovingByX() {
 		return movingByX;
 	}
 
+	public void setMovingByX(boolean movingByX) {
+		this.movingByX = movingByX;
+	}
+
 	public boolean isMovingByY() {
 		return movingByY;
 	}
 
-	public TextBox getTextBox() {
-		return textBox;
+	public void setMovingByY(boolean movingByY) {
+		this.movingByY = movingByY;
 	}
 
 	public double getMovingSpeed() {
 		return movingSpeed;
 	}
 
+	public void setMovingSpeed(double movingSpeed) {
+		this.movingSpeed = movingSpeed;
+	}
+
 	public double getStartPositionOffset() {
 		return startPositionOffset;
+	}
+
+	public void setStartPositionOffset(double startPositionOffset) {
+		this.startPositionOffset = startPositionOffset;
+	}
+
+	public boolean isRepeatX() {
+		return repeatX;
+	}
+
+	public void setRepeatX(boolean repeatX) {
+		this.repeatX = repeatX;
+	}
+
+	public boolean isRepeatY() {
+		return repeatY;
+	}
+
+	public void setRepeatY(boolean repeatY) {
+		this.repeatY = repeatY;
+	}
+
+	public TextBox getTextBox() {
+		return textBox;
+	}
+
+	public void setTextBox(TextBox textBox) {
+		this.textBox = textBox;
 	}
 }

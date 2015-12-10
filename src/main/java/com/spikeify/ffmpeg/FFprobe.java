@@ -70,7 +70,7 @@ public class FFprobe {
 
 
 	public void setDuration(List<VideoObject> videoObjectList) throws IOException {
-		for (VideoObject videoObject: videoObjectList){
+		for (VideoObject videoObject : videoObjectList){
 			if(videoObject != null && videoObject.getPath() != null){
 				ImmutableList.Builder<String> args = new ImmutableList.Builder<String>();
 
@@ -84,9 +84,13 @@ public class FFprobe {
 
 				BufferedReader reader = runFunc.run(args.build());
 				FFmpegProbeResult fFmpegProbeResult = gson.fromJson(reader, FFmpegProbeResult.class);
-				if(fFmpegProbeResult != null && fFmpegProbeResult.getFormat() != null){
-					videoObject.setStartTime(fFmpegProbeResult.getFormat().start_time);
-					videoObject.setVideoDuration(fFmpegProbeResult.getFormat().duration);
+				if(fFmpegProbeResult != null && fFmpegProbeResult.getFormat() != null) {
+					if(videoObject.getStart() == -1) {
+						videoObject.setStart(fFmpegProbeResult.getFormat().start_time);
+					}
+					if(videoObject.getEnd() == -1) {
+						videoObject.setEnd(fFmpegProbeResult.getFormat().duration);
+					}
 				}
 
 			}

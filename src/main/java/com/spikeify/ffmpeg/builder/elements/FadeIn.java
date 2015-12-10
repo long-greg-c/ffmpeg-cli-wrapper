@@ -4,7 +4,7 @@ public class FadeIn extends Fade{
 
 	private double start;
 
-	public FadeIn(double start, double duration) {
+	private FadeIn(double start, double duration) {
 		super(duration);
 		this.start = start;
 	}
@@ -12,4 +12,10 @@ public class FadeIn extends Fade{
 	public double getStart() {
 		return start;
 	}
+
+	public static FadeIn fadeIn(double start, double duration){
+		return new FadeIn(start, duration);
+	}
+
+
 }
