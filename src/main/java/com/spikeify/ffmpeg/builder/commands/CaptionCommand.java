@@ -6,16 +6,16 @@ import com.spikeify.ffmpeg.builder.elements.TextBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaptionCommandBuilder {
+public class CaptionCommand {
 
 	private List<Caption> captions;
 	private String cmd = "";
 
-	private CaptionCommandBuilder(List<Caption> captions) {
+	private CaptionCommand(List<Caption> captions) {
 		this.captions = captions;
 	}
 
-	private CaptionCommandBuilder build() {
+	private CaptionCommand build() {
 		if (captions != null && captions.size() > 0) {
 			for (Caption caption : captions) {
 				//set text and font
@@ -123,14 +123,14 @@ public class CaptionCommandBuilder {
 	}
 
 
-	public static CaptionCommandBuilder set(List<Caption> captions, Caption caption) {
+	public static CaptionCommand set(List<Caption> captions, Caption caption) {
 		if (captions == null) {
 			captions = new ArrayList<>();
 		}
 		if (caption != null) {
 			captions.add(caption);
 		}
-		return new CaptionCommandBuilder(captions).build();
+		return new CaptionCommand(captions).build();
 	}
 
 	public String getCmd() {

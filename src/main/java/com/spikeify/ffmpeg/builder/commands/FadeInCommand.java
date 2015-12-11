@@ -2,17 +2,17 @@ package com.spikeify.ffmpeg.builder.commands;
 
 import com.spikeify.ffmpeg.builder.elements.FadeIn;
 
-public class FadeInCommandBuilder {
+public class FadeInCommand {
 
 	private FadeIn fadeInBuilder;
 	private String videoCmd = "";
 	private String audioCmd = "";
 
-	private FadeInCommandBuilder(FadeIn fadeInBuilder) {
+	private FadeInCommand(FadeIn fadeInBuilder) {
 		this.fadeInBuilder = fadeInBuilder;
 	}
 
-	private FadeInCommandBuilder build(){
+	private FadeInCommand build(){
 		if(this.fadeInBuilder != null) {
 			double start = this.fadeInBuilder.getStart();
 			double duration = this.fadeInBuilder.getDuration();
@@ -22,8 +22,8 @@ public class FadeInCommandBuilder {
 		return this;
 	}
 
-	public static FadeInCommandBuilder set(FadeIn fadeInBuilder){
-		return new FadeInCommandBuilder(fadeInBuilder).build();
+	public static FadeInCommand set(FadeIn fadeInBuilder){
+		return new FadeInCommand(fadeInBuilder).build();
 	}
 
 	public String getVideoCmd() {

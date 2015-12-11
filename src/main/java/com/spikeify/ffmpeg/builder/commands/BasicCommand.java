@@ -2,7 +2,7 @@ package com.spikeify.ffmpeg.builder.commands;
 
 import com.spikeify.ffmpeg.builder.elements.VideoObject;
 
-public class BasicCommandBuilder {
+public class BasicCommand {
 
 	private VideoObject videoObject;
 	private int seqNum;
@@ -13,12 +13,12 @@ public class BasicCommandBuilder {
 	private String audioStreamInput;
 	private String audioStreamOutput;
 
-	private BasicCommandBuilder(VideoObject videoObject, int seqNum) {
+	private BasicCommand(VideoObject videoObject, int seqNum) {
 		this.videoObject = videoObject;
 		this.seqNum = seqNum;
 	}
 
-	private BasicCommandBuilder build() {
+	private BasicCommand build() {
 		if (videoObject != null) {
 			this.videoStreamInput = "[" + String.valueOf(seqNum) + ":v]";
 			this.videoStreamOutput = "[v" + String.valueOf(seqNum) + "]";
@@ -42,8 +42,8 @@ public class BasicCommandBuilder {
 		return this;
 	}
 
-	public static BasicCommandBuilder set(VideoObject videoObject, int seqNum) {
-		return new BasicCommandBuilder(videoObject, seqNum).build();
+	public static BasicCommand set(VideoObject videoObject, int seqNum) {
+		return new BasicCommand(videoObject, seqNum).build();
 	}
 
 	public String getBasicCmd() {

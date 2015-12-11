@@ -13,7 +13,19 @@ public class FadeOut extends Fade {
 		return fromEnd;
 	}
 
-	public static FadeOut fadeOut(double fromEnd, double duration) {
-		return new FadeOut(fromEnd, duration);
+
+	public static class FadeOutBuilder{
+		private double fromEnd;
+		private double duration;
+
+		public FadeOutBuilder(double fromEnd, double duration) {
+			this.fromEnd = fromEnd;
+			this.duration = duration;
+		}
+
+		public FadeOut createFadeOut(){
+			return new FadeOut(fromEnd, duration);
+		}
 	}
+
 }

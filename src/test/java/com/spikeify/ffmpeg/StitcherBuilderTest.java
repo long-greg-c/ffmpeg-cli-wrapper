@@ -27,14 +27,14 @@ public class StitcherBuilderTest {
 		List<VideoObject> videoObjectList = new ArrayList<>();
 
 		//settings for video 1
-		TextBox textBox1 = new TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
-		Caption caption1 = new CaptionBuilder("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
-		VideoObject videoObject1 = new VideoObjectBuilder(input).setFadeInBuilder(FadeIn.fadeIn(0, 1)).setFadeOut(FadeOut.fadeOut(1, 1)).setCaption(caption1).createVideoObject();
+		TextBox textBox1 = new TextBox.TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
+		Caption caption1 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
+		VideoObject videoObject1 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption1).createVideoObject();
 		videoObjectList.add(videoObject1);
 
 		//settings for video 2
-		Caption caption2 = new CaptionBuilder("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
-		VideoObject videoObject2 = new VideoObjectBuilder(input).setFadeInBuilder(FadeIn.fadeIn(0, 1)).setFadeOut(FadeOut.fadeOut(1, 1)).setCaption(caption2).createVideoObject();
+		Caption caption2 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
+		VideoObject videoObject2 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption2).createVideoObject();
 		videoObjectList.add(videoObject2);
 
 		//set duration to each video
@@ -50,7 +50,7 @@ public class StitcherBuilderTest {
 
 		//add output video
 		List<VideoObject> videoObjectOutputList = new ArrayList<>();
-		VideoObject videoObject3 = new VideoObjectBuilder(output).createVideoObject();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
 		videoObjectOutputList.add(videoObject3);
 
 		//set duration to output video
@@ -69,14 +69,14 @@ public class StitcherBuilderTest {
 		List<VideoObject> videoObjectList = new ArrayList<>();
 
 		//settings for video 1
-		TextBox textBox1 = new TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
-		Caption caption1 = new CaptionBuilder("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
-		VideoObject videoObject1 = new VideoObjectBuilder(input).setFadeInBuilder(FadeIn.fadeIn(0, 1)).setFadeOut(FadeOut.fadeOut(1, 1)).setCaption(caption1).setStart(2).setEnd(4).createVideoObject();
+		TextBox textBox1 = new TextBox.TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
+		Caption caption1 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
+		VideoObject videoObject1 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption1).setStart(2).setEnd(4).createVideoObject();
 		videoObjectList.add(videoObject1);
 
 		//settings for video 2
-		Caption caption2 = new CaptionBuilder("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
-		VideoObject videoObject2 = new VideoObjectBuilder(input).setFadeInBuilder(FadeIn.fadeIn(0, 1)).setFadeOut(FadeOut.fadeOut(1, 1)).setCaption(caption2).setStart(4).setEnd(6).createVideoObject();
+		Caption caption2 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
+		VideoObject videoObject2 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption2).setStart(4).setEnd(6).createVideoObject();
 		videoObjectList.add(videoObject2);
 
 		//set duration to each video
@@ -92,7 +92,7 @@ public class StitcherBuilderTest {
 
 		//add output video
 		List<VideoObject> videoObjectOutputList = new ArrayList<>();
-		VideoObject videoObject3 = new VideoObjectBuilder(output).createVideoObject();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
 		videoObjectOutputList.add(videoObject3);
 
 		//set duration to output video

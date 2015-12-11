@@ -13,9 +13,21 @@ public class FadeIn extends Fade{
 		return start;
 	}
 
-	public static FadeIn fadeIn(double start, double duration){
-		return new FadeIn(start, duration);
+	public static class FadeInBuilder{
+		private double duration;
+		private double start;
+
+		public FadeInBuilder(double start, double duration) {
+			this.duration = duration;
+			this.start = start;
+		}
+
+		public FadeIn createFadeIn(){
+			return new FadeIn(start, duration);
+		}
 	}
+
+
 
 
 }

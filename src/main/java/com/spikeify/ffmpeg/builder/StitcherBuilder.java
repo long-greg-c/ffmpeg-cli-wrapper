@@ -1,10 +1,10 @@
 package com.spikeify.ffmpeg.builder;
 
 import com.google.common.collect.ImmutableList;
-import com.spikeify.ffmpeg.builder.commands.BasicCommandBuilder;
-import com.spikeify.ffmpeg.builder.commands.CaptionCommandBuilder;
-import com.spikeify.ffmpeg.builder.commands.FadeInCommandBuilder;
-import com.spikeify.ffmpeg.builder.commands.FadeOutCommandBuilder;
+import com.spikeify.ffmpeg.builder.commands.BasicCommand;
+import com.spikeify.ffmpeg.builder.commands.CaptionCommand;
+import com.spikeify.ffmpeg.builder.commands.FadeInCommand;
+import com.spikeify.ffmpeg.builder.commands.FadeOutCommand;
 import com.spikeify.ffmpeg.builder.elements.VideoObject;
 
 import java.util.List;
@@ -41,24 +41,24 @@ public class StitcherBuilder {
 			String closing = " ;\n";
 			for (VideoObject videoObject : this.videoObjectBuilderList) {
 				if (videoObject != null) {
-					BasicCommandBuilder bcb = BasicCommandBuilder.set(videoObject, seqNum++);
+					BasicCommand bcb = BasicCommand.set(videoObject, seqNum++);
 					String basicOperation = bcb.getBasicCmd();
 
 					String audioOperation = "";
 
 					//set caption
-					CaptionCommandBuilder captionCommandBuilder = CaptionCommandBuilder.set(videoObject.getCaptions(), videoObject.getCaption());
-					basicOperation += captionCommandBuilder.getCmd();
+					CaptionCommand captionCommand = CaptionCommand.set(videoObject.getCaptions(), videoObject.getCaption());
+					basicOperation += captionCommand.getCmd();
 
 					//set fade in
-					FadeInCommandBuilder fadeInCommandBuilder = FadeInCommandBuilder.set(videoObject.getFadeInBuilder());
-					String videoFadeIn = fadeInCommandBuilder.getVideoCmd();
-					String audioFadeIn = fadeInCommandBuilder.getAudioCmd();
+					FadeInCommand fadeInCommand = FadeInCommand.set(videoObject.getFadeIn());
+					String videoFadeIn = fadeInCommand.getVideoCmd();
+					String audioFadeIn = fadeInCommand.getAudioCmd();
 
 					//set fade out
-					FadeOutCommandBuilder fadeOutCommandBuilder = FadeOutCommandBuilder.set(videoObject.getFadeOut(), videoObject.getEnd());
-					String videoFadeOut = fadeOutCommandBuilder.getVideoCmd();
-					String audioFadeOut = fadeOutCommandBuilder.getAudioCmd();
+					FadeOutCommand fadeOutCommand = FadeOutCommand.set(videoObject.getFadeOut(), videoObject.getEnd());
+					String videoFadeOut = fadeOutCommand.getVideoCmd();
+					String audioFadeOut = fadeOutCommand.getAudioCmd();
 
 
 					if (videoFadeIn.length() > 0 || videoFadeOut.length() > 0) {
