@@ -17,23 +17,25 @@ public class StitcherBuilderTest {
 	FFmpeg ffmpeg = new FFmpeg();
 	FFprobe ffprobe = new FFprobe();
 
-	public StitcherBuilderTest() throws IOException {}
+	public StitcherBuilderTest() throws IOException {
+	}
 
 	@Test
 	public void testStitchVideos() throws IOException {
 		//initialize videoObjectsList
+		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
 		String input = getClass().getResource("video.mp4").getPath();
 		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
 		List<VideoObject> videoObjectList = new ArrayList<>();
 
 		//settings for video 1
 		TextBox textBox1 = new TextBox.TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
-		Caption caption1 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
+		Caption caption1 = new Caption.CaptionBuilder(font, "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
 		VideoObject videoObject1 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption1).createVideoObject();
 		videoObjectList.add(videoObject1);
 
 		//settings for video 2
-		Caption caption2 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
+		Caption caption2 = new Caption.CaptionBuilder(font, "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
 		VideoObject videoObject2 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption2).createVideoObject();
 		videoObjectList.add(videoObject2);
 
@@ -66,16 +68,17 @@ public class StitcherBuilderTest {
 		//initialize videoObjectsList
 		String input = getClass().getResource("video.mp4").getPath();
 		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
 		List<VideoObject> videoObjectList = new ArrayList<>();
 
 		//settings for video 1
 		TextBox textBox1 = new TextBox.TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
-		Caption caption1 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
+		Caption caption1 = new Caption.CaptionBuilder(font, "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
 		VideoObject videoObject1 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption1).setStart(2).setEnd(4).createVideoObject();
 		videoObjectList.add(videoObject1);
 
 		//settings for video 2
-		Caption caption2 = new Caption.CaptionBuilder("/Library/Fonts/Krungthep.ttf", "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
+		Caption caption2 = new Caption.CaptionBuilder(font, "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
 		VideoObject videoObject2 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption2).setStart(4).setEnd(6).createVideoObject();
 		videoObjectList.add(videoObject2);
 
@@ -102,5 +105,146 @@ public class StitcherBuilderTest {
 		assertEquals(4.024, videoObjectOutputList.get(0).getEnd(), 5);
 	}
 
+	@Test
+	public void testImageOverlay() throws IOException {
+		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
+		String input = getClass().getResource("video1.mp4").getPath();
+		String overlayImage = getClass().getResource("gradient.png").getPath();
+		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+
+		List<VideoObject> videoObjectList = new ArrayList<>();
+		//settings for video 1
+		List<Caption> captionList = new ArrayList<>();
+		Caption title = new Caption.CaptionBuilder(font, "Darth Vader").setColor("white").setSize(30).setX(30).setY(230).createCaption();
+		Caption description = new Caption.CaptionBuilder(font, "I am your father").setColor("white").setSize(20).setX(30).setY(260).setAlpha(0.5).createCaption();
+
+		captionList.add(title);
+		captionList.add(description);
+
+		VideoObject videoObjectOverlay = new VideoObject.VideoObjectBuilder(overlayImage).setVideoStartOffset(0.5).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).setOverlayY(720 - 300).setCaptions(captionList).createVideoObject();
+		VideoObject videoObject1 = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setOverlayVideo(videoObjectOverlay).createVideoObject();
+		videoObjectList.add(videoObject1);
+
+		//set duration to each video
+		ffprobe.setDuration(videoObjectList);
+
+		//define stitching settings
+		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
+
+		//execute
+		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+		FFmpegJob job = executor.createJob(builder);
+		job.run();
+
+		//add output video
+		List<VideoObject> videoObjectOutputList = new ArrayList<>();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
+		videoObjectOutputList.add(videoObject3);
+
+		//set duration to output video
+		ffprobe.setDuration(videoObjectOutputList);
+
+		//check video length
+		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 5);
+
+	}
+
+	/**
+	 * multiple overlays are currently not supported
+	 *
+	 * @throws IOException
+	 */
+//	@Test
+//	public void testTwoImageOverlay() throws IOException {
+//		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
+//		String input = getClass().getResource("video1.mp4").getPath();
+//		String overlayImage = getClass().getResource("gradient.png").getPath();
+//		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+//
+//		List<VideoObject> videoObjectList = new ArrayList<>();
+//		//settings for video 1
+//		List<Caption> captionList = new ArrayList<>();
+//		Caption title = new Caption.CaptionBuilder(font, "Darth Vader").setColor("white").setSize(30).setX(30).setY(230).createCaption();
+//		Caption description = new Caption.CaptionBuilder(font, "I am your father").setColor("white").setSize(20).setX(30).setY(260).setAlpha(0.5).createCaption();
+//
+//		captionList.add(title);
+//		captionList.add(description);
+//		VideoObject videoOverlay1 = new VideoObject.VideoObjectBuilder(overlayImage).setVideoStartOffset(0.5).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).setOverlayY(720 - 300).setCaptions(captionList).createVideoObject();
+//		VideoObject videoOverlay2 = new VideoObject.VideoObjectBuilder(overlayImage).setVideoStartOffset(0.5).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).setOverlayY(720 - 100).setCaptions(captionList).createVideoObject();
+//		List<VideoObject> videoOverlayList = new ArrayList<>();
+//		videoOverlayList.add(videoOverlay1);
+//		videoOverlayList.add(videoOverlay2);
+//
+//		VideoObject mainVideo = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setOverlayVideoList(videoOverlayList).createVideoObject();
+//		videoObjectList.add(mainVideo);
+//
+//		//set duration to each video
+//		ffprobe.setDuration(videoObjectList);
+//
+//		//define stitching settings
+//		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
+//
+//		//execute
+//		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+//		FFmpegJob job = executor.createJob(builder);
+//		job.run();
+//
+//		//add output video
+//		List<VideoObject> videoObjectOutputList = new ArrayList<>();
+//		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
+//		videoObjectOutputList.add(videoObject3);
+//
+//		//set duration to output video
+//		ffprobe.setDuration(videoObjectOutputList);
+//
+//		//check video length
+//		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 5);
+//	}
+	@Test
+	public void testMovieOverlay() throws IOException {
+		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
+		String input = getClass().getResource("video1.mp4").getPath();
+		String overlayImage = getClass().getResource("gradient.mov").getPath();
+		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+
+		List<VideoObject> videoObjectList = new ArrayList<>();
+
+		//caption for overlay Video
+		List<Caption> captionList = new ArrayList<>();
+		Caption title = new Caption.CaptionBuilder(font, "Darth Vader").setColor("white").setSize(30).setX(30).setY(230).createCaption(); //y coordinate should be set relative to overlay video height and not the height of the main video.
+		Caption description = new Caption.CaptionBuilder(font, "I am your father").setColor("white").setSize(20).setX(30).setY(260).setAlpha(0.5).createCaption();
+		captionList.add(title);
+		captionList.add(description);
+
+		//settings for overlay video
+		//fade out effect should be shorter than duration of overlay video to work properly.
+		VideoObject videoObjectOverlay = new VideoObject.VideoObjectBuilder(overlayImage).setVideoStartOffset(1).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(0.8, 1).setLengthUnknown(true).createFadeOut()).setOverlayY(720 - 300).setCaptions(captionList).createVideoObject();
+
+		//settings for main video
+		VideoObject mainVideo = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setOverlayVideo(videoObjectOverlay).createVideoObject();
+		videoObjectList.add(mainVideo);
+
+		//set duration to each video
+		ffprobe.setDuration(videoObjectList);
+
+		//define stitching settings
+		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
+
+		//execute
+		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+		FFmpegJob job = executor.createJob(builder);
+		job.run();
+
+		//add output video
+		List<VideoObject> videoObjectOutputList = new ArrayList<>();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
+		videoObjectOutputList.add(videoObject3);
+
+		//set duration to output video
+		ffprobe.setDuration(videoObjectOutputList);
+
+		//check video length
+		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 5);
+	}
 
 }

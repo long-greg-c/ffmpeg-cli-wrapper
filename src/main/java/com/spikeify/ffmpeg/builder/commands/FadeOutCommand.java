@@ -8,24 +8,34 @@ public class FadeOutCommand {
 	private String videoCmd = "";
 	private String audioCmd = "";
 	private double videoLength;
+	private boolean isOverlay;
 
-	private FadeOutCommand(FadeOut fadeOut, double videoLength) {
+	private FadeOutCommand(FadeOut fadeOut, double videoLength, boolean isOverlay) {
 		this.fadeOut = fadeOut;
 		this.videoLength = videoLength;
+		this.isOverlay = isOverlay;
 	}
 
-	private FadeOutCommand build(){
-		if(this.fadeOut != null && videoLength > 0) {
-			double fromEnd = this.fadeOut.getFromEnd();
+	private FadeOutCommand build() {
+		if (this.fadeOut != null) {
+			double fromEnd = this.fadeOut.getEnd();
 			double duration = this.fadeOut.getDuration();
-			this.videoCmd = ", fade=t=out:st=" + String.valueOf(this.videoLength - fromEnd) + ":d=" + String.valueOf(duration);
-			this.audioCmd = "afade=t=out:st=" + String.valueOf(this.videoLength - fromEnd) + ":d=" + String.valueOf(duration);
+			if (fadeOut.isLengthUnknown()) {
+				//video length is unknown, user sets end of fade out effect.
+				this.videoCmd = ", fade=t=out:st=" + String.valueOf(fromEnd) + ":d=" + String.valueOf(duration) + (isOverlay ? ":alpha=1" : "");
+				this.audioCmd = "afade=t=out:st=" + String.valueOf(fromEnd) + ":d=" + String.valueOf(duration);
+			} else {
+				//video length is known (was set with ffprobe) and user specifies an offset
+				this.videoCmd = ", fade=t=out:st=" + String.valueOf(this.videoLength - fromEnd) + ":d=" + String.valueOf(duration) + (isOverlay ? ":alpha=1" : "");
+				this.audioCmd = "afade=t=out:st=" + String.valueOf(this.videoLength - fromEnd) + ":d=" + String.valueOf(duration);
+			}
 		}
+
 		return this;
 	}
 
-	public static FadeOutCommand set(FadeOut fadeOut, double videoLength){
-		return new FadeOutCommand(fadeOut, videoLength).build();
+	public static FadeOutCommand set(FadeOut fadeOut, double videoLength, boolean isOverlay) {
+		return new FadeOutCommand(fadeOut, videoLength, isOverlay).build();
 	}
 
 	public String getVideoCmd() {

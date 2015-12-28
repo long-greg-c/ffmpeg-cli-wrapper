@@ -8,6 +8,7 @@ public class Caption {
 	private int size;
 	private int x = -1;
 	private int y = -1;
+	private double alpha;
 
 
 	private boolean movingByX;
@@ -19,13 +20,14 @@ public class Caption {
 
 	private TextBox textBox;
 
-	private Caption(String text, String color, String fontPath, int size, int x, int y, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, TextBox textBox) {
+	private Caption(String text, String color, String fontPath, int size, int x, int y, double alpha, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, TextBox textBox) {
 		this.text = text;
 		this.color = color;
 		this.fontPath = fontPath;
 		this.size = size;
 		this.x = x;
 		this.y = y;
+		this.alpha = alpha;
 		this.movingByX = movingByX;
 		this.movingByY = movingByY;
 		this.movingSpeed = movingSpeed;
@@ -139,6 +141,10 @@ public class Caption {
 		this.textBox = textBox;
 	}
 
+	public double getAlpha() {
+		return alpha;
+	}
+
 	public static class CaptionBuilder {
 
 		private String text;
@@ -147,6 +153,7 @@ public class Caption {
 		private int size;
 		private int x;
 		private int y;
+		private double alpha;
 		private boolean movingByX;
 		private boolean movingByY;
 		private double movingSpeed;
@@ -215,8 +222,13 @@ public class Caption {
 			return this;
 		}
 
+		public CaptionBuilder setAlpha(double alpha) {
+			this.alpha = alpha;
+			return this;
+		}
+
 		public Caption createCaption() {
-			return new Caption(text, color, fontPath, size, x, y, movingByX, movingByY, movingSpeed, startPositionOffset, repeatX, repeatY, textBox);
+			return new Caption(text, color, fontPath, size, x, y, alpha, movingByX, movingByY, movingSpeed, startPositionOffset, repeatX, repeatY, textBox);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.spikeify.ffmpeg.builder.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VideoObject {
@@ -7,6 +8,10 @@ public class VideoObject {
 	private String path; //video path
 	private double start = -1; //video start time
 	private double end = -1; //video end time
+	private double videoStartOffset; //used for video overlays.
+
+	private double overlayX = 0;
+	private double overlayY = 0;
 
 	private FadeIn fadeIn;
 	private FadeOut fadeOut;
@@ -14,14 +19,21 @@ public class VideoObject {
 	private List<Caption> captions;
 	private Caption caption;
 
-	private VideoObject(String path, double start, double end, FadeIn fadeIn, FadeOut fadeOut, List<Caption> captions, Caption caption) {
+	private List<VideoObject> overlayVideoList;
+
+
+	private VideoObject(String path, double start, double end, double videoStartOffset, double overlayX, double overlayY, FadeIn fadeIn, FadeOut fadeOut, List<Caption> captions, Caption caption, List<VideoObject> overlayVideoList) {
 		this.path = path;
 		this.start = start;
 		this.end = end;
+		this.videoStartOffset = videoStartOffset;
+		this.overlayX = overlayX;
+		this.overlayY = overlayY;
 		this.fadeIn = fadeIn;
 		this.fadeOut = fadeOut;
 		this.captions = captions;
 		this.caption = caption;
+		this.overlayVideoList = overlayVideoList;
 	}
 
 	public String getPath() {
@@ -80,14 +92,34 @@ public class VideoObject {
 		this.caption = caption;
 	}
 
+	public double getOverlayX() {
+		return overlayX;
+	}
+
+	public double getOverlayY() {
+		return overlayY;
+	}
+
+	public List<VideoObject> getOverlayVideoList() {
+		return overlayVideoList;
+	}
+
+	public double getVideoStartOffset() {
+		return videoStartOffset;
+	}
+
 	public static class VideoObjectBuilder {
 		private String path;
 		private double start = -1;
 		private double end = -1;
+		private double overlayX;
+		private double overlayY;
 		private FadeIn fadeIn;
 		private FadeOut fadeOut;
 		private List<Caption> captions;
 		private Caption caption;
+		private List<VideoObject> overlayVideoList;
+		private double videoStartOffset; //used for video overlays.
 
 		public VideoObjectBuilder(String path) {
 			this.path = path;
@@ -123,8 +155,40 @@ public class VideoObject {
 			return this;
 		}
 
-		public VideoObject createVideoObject() {
-			return new VideoObject(path, start, end, fadeIn, fadeOut, captions, caption);
+		public VideoObjectBuilder setOverlayVideo(VideoObject overlayVideo) {
+			if(overlayVideo != null){
+				List<VideoObject> videoObjectList = new ArrayList<>();
+				videoObjectList.add(overlayVideo);
+				this.overlayVideoList = videoObjectList;
+			}
+			return this;
 		}
+
+		public VideoObjectBuilder setOverlayX(double overlayX) {
+			this.overlayX = overlayX;
+			return this;
+		}
+
+		public VideoObjectBuilder setOverlayY(double overlayY) {
+			this.overlayY = overlayY;
+			return this;
+		}
+
+		/* this operation is not supported yet */
+//		public VideoObjectBuilder setOverlayVideoList(List<VideoObject> overlayVideoList) {
+//			this.overlayVideoList = overlayVideoList;
+//			return this;
+//		}
+
+		public VideoObjectBuilder setVideoStartOffset(double videoStartOffset) {
+			this.videoStartOffset = videoStartOffset;
+			return this;
+		}
+
+		public VideoObject createVideoObject() {
+			return new VideoObject(path, start, end, videoStartOffset, overlayX, overlayY, fadeIn, fadeOut, captions, caption, overlayVideoList);
+		}
+
+
 	}
 }

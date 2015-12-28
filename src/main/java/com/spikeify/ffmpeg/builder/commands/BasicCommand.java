@@ -13,6 +13,12 @@ public class BasicCommand {
 	private String audioStreamInput;
 	private String audioStreamOutput;
 
+	private String audioOperation;
+	private String videoOperation;
+
+	//needed for overlay
+	private String videoTempOutput = "";
+
 	private BasicCommand(VideoObject videoObject, int seqNum) {
 		this.videoObject = videoObject;
 		this.seqNum = seqNum;
@@ -24,6 +30,7 @@ public class BasicCommand {
 			this.videoStreamOutput = "[v" + String.valueOf(seqNum) + "]";
 			this.audioStreamInput = "[" + String.valueOf(seqNum) + ":a]";
 			this.audioStreamOutput = "[a" + String.valueOf(seqNum) + "]";
+			this.videoTempOutput = "[vt" + String.valueOf(seqNum) + "]";
 
 			//process video and audio trim operations
 			if (videoObject.getStart() > 0 || videoObject.getEnd() > 0) {
@@ -68,5 +75,25 @@ public class BasicCommand {
 
 	public String getAudioStreamOutput() {
 		return audioStreamOutput;
+	}
+
+	public String getVideoTempOutput() {
+		return videoTempOutput;
+	}
+
+	public String getAudioOperation() {
+		return audioOperation;
+	}
+
+	public void setAudioOperation(String audioOperation) {
+		this.audioOperation = audioOperation;
+	}
+
+	public String getVideoOperation() {
+		return videoOperation;
+	}
+
+	public void setVideoOperation(String videoOperation) {
+		this.videoOperation = videoOperation;
 	}
 }

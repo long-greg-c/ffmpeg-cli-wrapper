@@ -19,7 +19,7 @@ public class CaptionCommand {
 		if (captions != null && captions.size() > 0) {
 			for (Caption caption : captions) {
 				//set text and font
-				this.cmd = ", drawtext=fontfile=" + caption.getFontPath() + ":text='" + caption.getText() + "'";
+				this.cmd += ", drawtext=fontfile=" + caption.getFontPath() + ":text='" + caption.getText() + "'";
 
 				//set font size
 				if (caption.getSize() != 0) {
@@ -29,6 +29,11 @@ public class CaptionCommand {
 				//set color
 				if (caption.getColor() != null) {
 					this.cmd += ":fontcolor=" + caption.getColor();
+				}
+
+				//set alpha
+				if(caption.getAlpha() > 0 && caption.getAlpha() <= 1){
+					this.cmd += ":alpha=" + caption.getAlpha();
 				}
 
 				//set x position
