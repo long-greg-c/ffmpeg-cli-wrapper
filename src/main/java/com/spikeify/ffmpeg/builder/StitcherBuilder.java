@@ -67,7 +67,14 @@ public class StitcherBuilder {
 
 		//fade in and fade out audio
 		if (audioFadeIn.length() > 0 || audioFadeOut.length() > 0) {
-			audioOperation = bcb.getAudioStreamInput() + bcb.getAudioTrimCmd() + (bcb.getAudioTrimCmd().length() > 0 ? ", " : "") + audioFadeIn + (audioFadeOut.length() > 0 ? ", " : "") + audioFadeOut + bcb.getAudioStreamOutput();
+			audioOperation = bcb.getAudioStreamInput() + bcb.getAudioTrimCmd();
+			if(audioFadeIn.length() > 0){
+				audioOperation += ", " + audioFadeIn;
+			}
+			if(audioFadeOut.length() > 0){
+				audioOperation += ", " + audioFadeOut;
+			}
+			audioOperation += bcb.getAudioStreamOutput();
 		}
 
 		//start video at given offset. Mostly used for overlay videos
