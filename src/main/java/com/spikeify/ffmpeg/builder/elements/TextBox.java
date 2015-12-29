@@ -6,18 +6,18 @@ public class TextBox {
 	private int y;
 	private double width;
 	private double height;
-	private double tickness;
+	private double thickness;
 	private double opacity;
 	private String color;
 	private boolean wholeWidth;
 	private boolean wholeHeight;
 
-	private TextBox(int x, int y, double width, double height, double tickness, double opacity, String color, boolean wholeWidth, boolean wholeHeight) {
+	private TextBox(int x, int y, double width, double height, double thickness, double opacity, String color, boolean wholeWidth, boolean wholeHeight) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.tickness = tickness;
+		this.thickness = thickness;
 		this.opacity = opacity;
 		this.color = color;
 		this.wholeWidth = wholeWidth;
@@ -56,12 +56,12 @@ public class TextBox {
 		this.height = height;
 	}
 
-	public double getTickness() {
-		return tickness;
+	public double getThickness() {
+		return thickness;
 	}
 
-	public void setTickness(double tickness) {
-		this.tickness = tickness;
+	public void setThickness(double thickness) {
+		this.thickness = thickness;
 	}
 
 	public double getOpacity() {

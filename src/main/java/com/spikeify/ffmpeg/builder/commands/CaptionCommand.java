@@ -36,6 +36,31 @@ public class CaptionCommand {
 					this.cmd += ":alpha=" + caption.getAlpha();
 				}
 
+				//set border color
+				if(caption.getBorderColor() != null && caption.getBorderColor().length() > 0){
+					this.cmd += ":bordercolor=" + caption.getBorderColor();
+				}
+
+				//set border width
+				if(caption.getBorderWidth() > 0){
+					this.cmd += ":borderw=" + caption.getBorderWidth();
+				}
+
+				//set shadow color
+				if(caption.getShadowColor() != null && caption.getShadowColor().length() > 0){
+					this.cmd += ":shadowcolor=" + caption.getShadowColor();
+				}
+
+				//set shadow x
+				if(caption.getShadowX() > 0){
+					this.cmd += ":shadowx=" + caption.getShadowX();
+				}
+
+				//set shadow y
+				if(caption.getShadowY() > 0){
+					this.cmd += ":shadowy=" + caption.getShadowY();
+				}
+
 				//set x position
 				if (caption.getX() > -1) {
 					if (caption.isMovingByX()) {
@@ -64,7 +89,7 @@ public class CaptionCommand {
 
 				if (caption.getTextBox() != null) {
 					TextBox textBox = caption.getTextBox();
-//					drawbox=y=50:color=black@0.4:width=iw:height=68:t=max
+//					command example: drawbox=y=50:color=black@0.4:width=iw:height=68:t=max
 					this.cmd += ", drawbox=";
 
 					//set height
@@ -113,9 +138,9 @@ public class CaptionCommand {
 						this.cmd += "@1:";
 					}
 
-					//set tickness
-					if(textBox.getTickness() > 0){
-						this.cmd += "t="+String.valueOf(textBox.getTickness());
+					//set thickness
+					if(textBox.getThickness() > 0){
+						this.cmd += "t="+String.valueOf(textBox.getThickness());
 					}else {
 						this.cmd += "t=max";
 					}

@@ -149,57 +149,6 @@ public class StitcherBuilderTest {
 
 	}
 
-	/**
-	 * multiple overlays are currently not supported
-	 *
-	 * @throws IOException
-	 */
-//	@Test
-//	public void testTwoImageOverlay() throws IOException {
-//		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
-//		String input = getClass().getResource("video1.mp4").getPath();
-//		String overlayImage = getClass().getResource("gradient.png").getPath();
-//		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
-//
-//		List<VideoObject> videoObjectList = new ArrayList<>();
-//		//settings for video 1
-//		List<Caption> captionList = new ArrayList<>();
-//		Caption title = new Caption.CaptionBuilder(font, "Darth Vader").setColor("white").setSize(30).setX(30).setY(230).createCaption();
-//		Caption description = new Caption.CaptionBuilder(font, "I am your father").setColor("white").setSize(20).setX(30).setY(260).setAlpha(0.5).createCaption();
-//
-//		captionList.add(title);
-//		captionList.add(description);
-//		VideoObject videoOverlay1 = new VideoObject.VideoObjectBuilder(overlayImage).setVideoStartOffset(0.5).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).setOverlayY(720 - 300).setCaptions(captionList).createVideoObject();
-//		VideoObject videoOverlay2 = new VideoObject.VideoObjectBuilder(overlayImage).setVideoStartOffset(0.5).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).setOverlayY(720 - 100).setCaptions(captionList).createVideoObject();
-//		List<VideoObject> videoOverlayList = new ArrayList<>();
-//		videoOverlayList.add(videoOverlay1);
-//		videoOverlayList.add(videoOverlay2);
-//
-//		VideoObject mainVideo = new VideoObject.VideoObjectBuilder(input).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setOverlayVideoList(videoOverlayList).createVideoObject();
-//		videoObjectList.add(mainVideo);
-//
-//		//set duration to each video
-//		ffprobe.setDuration(videoObjectList);
-//
-//		//define stitching settings
-//		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
-//
-//		//execute
-//		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
-//		FFmpegJob job = executor.createJob(builder);
-//		job.run();
-//
-//		//add output video
-//		List<VideoObject> videoObjectOutputList = new ArrayList<>();
-//		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
-//		videoObjectOutputList.add(videoObject3);
-//
-//		//set duration to output video
-//		ffprobe.setDuration(videoObjectOutputList);
-//
-//		//check video length
-//		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 5);
-//	}
 	@Test
 	public void testMovieOverlay() throws IOException {
 		String font = getClass().getResource("Roboto-Regular.ttf").getPath();

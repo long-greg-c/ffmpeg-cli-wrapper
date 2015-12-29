@@ -10,7 +10,6 @@ public class Caption {
 	private int y = -1;
 	private double alpha;
 
-
 	private boolean movingByX;
 	private boolean movingByY;
 	private double movingSpeed = 1.0;
@@ -18,9 +17,18 @@ public class Caption {
 	private boolean repeatX;
 	private boolean repeatY;
 
+	//border
+	private double borderWidth;
+	private String borderColor;
+
+	//shadow
+	private String shadowColor;
+	private int shadowX;
+	private int shadowY;
+
 	private TextBox textBox;
 
-	private Caption(String text, String color, String fontPath, int size, int x, int y, double alpha, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, TextBox textBox) {
+	private Caption(String text, String color, String fontPath, int size, int x, int y, double alpha, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, double borderWidth, String borderColor, String shadowColor, int shadowX, int shadowY, TextBox textBox) {
 		this.text = text;
 		this.color = color;
 		this.fontPath = fontPath;
@@ -34,6 +42,11 @@ public class Caption {
 		this.startPositionOffset = startPositionOffset;
 		this.repeatX = repeatX;
 		this.repeatY = repeatY;
+		this.borderWidth = borderWidth;
+		this.borderColor = borderColor;
+		this.shadowColor = shadowColor;
+		this.shadowX = shadowX;
+		this.shadowY = shadowY;
 		this.textBox = textBox;
 	}
 
@@ -145,6 +158,50 @@ public class Caption {
 		return alpha;
 	}
 
+	public void setAlpha(double alpha) {
+		this.alpha = alpha;
+	}
+
+	public double getBorderWidth() {
+		return borderWidth;
+	}
+
+	public void setBorderWidth(double borderWidth) {
+		this.borderWidth = borderWidth;
+	}
+
+	public String getBorderColor() {
+		return borderColor;
+	}
+
+	public void setBorderColor(String borderColor) {
+		this.borderColor = borderColor;
+	}
+
+	public String getShadowColor() {
+		return shadowColor;
+	}
+
+	public void setShadowColor(String shadowColor) {
+		this.shadowColor = shadowColor;
+	}
+
+	public int getShadowX() {
+		return shadowX;
+	}
+
+	public void setShadowX(int shadowX) {
+		this.shadowX = shadowX;
+	}
+
+	public int getShadowY() {
+		return shadowY;
+	}
+
+	public void setShadowY(int shadowY) {
+		this.shadowY = shadowY;
+	}
+
 	public static class CaptionBuilder {
 
 		private String text;
@@ -160,6 +217,16 @@ public class Caption {
 		private double startPositionOffset;
 		private boolean repeatX;
 		private boolean repeatY;
+
+		//border
+		private double borderWidth;
+		private String borderColor;
+
+		//shadow
+		private String shadowColor;
+		private int shadowX;
+		private int shadowY;
+
 		private TextBox textBox;
 
 		public CaptionBuilder(String fontPath, String text) {
@@ -227,8 +294,33 @@ public class Caption {
 			return this;
 		}
 
+		public CaptionBuilder setBorderWidth(double borderWidth) {
+			this.borderWidth = borderWidth;
+			return this;
+		}
+
+		public CaptionBuilder setBorderColor(String borderColor) {
+			this.borderColor = borderColor;
+			return this;
+		}
+
+		public CaptionBuilder setShadowColor(String shadowColor) {
+			this.shadowColor = shadowColor;
+			return this;
+		}
+
+		public CaptionBuilder setShadowX(int shadowX) {
+			this.shadowX = shadowX;
+			return this;
+		}
+
+		public CaptionBuilder setShadowY(int shadowY) {
+			this.shadowY = shadowY;
+			return this;
+		}
+
 		public Caption createCaption() {
-			return new Caption(text, color, fontPath, size, x, y, alpha, movingByX, movingByY, movingSpeed, startPositionOffset, repeatX, repeatY, textBox);
+			return new Caption(text, color, fontPath, size, x, y, alpha, movingByX, movingByY, movingSpeed, startPositionOffset, repeatX, repeatY, borderWidth, borderColor, shadowColor, shadowX, shadowY, textBox);
 		}
 	}
 }
