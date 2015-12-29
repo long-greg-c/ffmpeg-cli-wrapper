@@ -54,10 +54,7 @@ Install static build ffmpeg to use all added features.
 
     ffprobe.setDuration(videoObjectList); //set duration to each video
 
-    //define stitching settings
-    FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
-
-    //execute
+    FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput("output.mp4").stitchVideos(videoObjectList).done();
     FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
     FFmpegJob job = executor.createJob(builder);
     job.run();
