@@ -66,7 +66,7 @@ public class StitcherBuilder {
 		}
 
 		//fade in and fade out audio
-		if (audioFadeIn.length() > 0 || audioFadeOut.length() > 0) {
+		if (audioFadeIn.length() > 0 || audioFadeOut.length() > 0 || bcb.getAudioTrimCmd().length() > 0) {
 			audioOperation = bcb.getAudioStreamInput() + bcb.getAudioTrimCmd();
 			if(audioFadeIn.length() > 0){
 				audioOperation += ", " + audioFadeIn;

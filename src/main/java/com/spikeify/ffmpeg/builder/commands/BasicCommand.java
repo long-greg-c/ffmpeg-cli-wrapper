@@ -33,12 +33,22 @@ public class BasicCommand {
 			this.videoTempOutput = "[vt" + String.valueOf(seqNum) + "]";
 
 			//process video and audio trim operations
-			if (videoObject.getStart() > 0 || videoObject.getEnd() > 0) {
+			if (videoObject.getStart() > 0 || videoObject.getEnd() > 0 || videoObject.getDuration() > 0) {
 				this.basicCmd = "trim=";
 				this.audioTrimCmd = "atrim=";
 
-				this.basicCmd += String.valueOf(videoObject.getStart()) + ":" + String.valueOf(videoObject.getEnd()) + ", ";
-				this.audioTrimCmd += String.valueOf(videoObject.getStart()) + ":" + String.valueOf(videoObject.getEnd());
+				if(videoObject.getDuration() > 0) {
+					//user sets duration for trimming
+					this.basicCmd += String.valueOf(videoObject.getStart()) + ":" + String.valueOf(videoObject.getStart() + videoObject.getDuration()) + ", ";
+					this.audioTrimCmd += String.valueOf(videoObject.getStart()) + ":" + String.valueOf(videoObject.getStart() + videoObject.getDuration());
+
+				}else{
+					//user sets start or end for trimming
+					this.basicCmd += String.valueOf(videoObject.getStart()) + ":" + String.valueOf(videoObject.getEnd()) + ", ";
+					this.audioTrimCmd += String.valueOf(videoObject.getStart()) + ":" + String.valueOf(videoObject.getEnd());
+				}
+
+
 				this.audioTrimCmd += ", asetpts=PTS-STARTPTS";
 
 				videoObject.setEnd(videoObject.getEnd() - videoObject.getStart()); //reset video end

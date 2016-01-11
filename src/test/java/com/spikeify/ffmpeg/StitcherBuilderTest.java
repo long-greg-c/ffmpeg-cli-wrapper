@@ -60,7 +60,7 @@ public class StitcherBuilderTest {
 
 		//check video length
 		assertEquals(8.871, videoObjectList.get(0).getEnd(), 3);
-		assertEquals(17.764, videoObjectOutputList.get(0).getEnd(), 5);
+		assertEquals(17.764, videoObjectOutputList.get(0).getEnd(), 1);
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class StitcherBuilderTest {
 		ffprobe.setDuration(videoObjectOutputList);
 
 		//check video length
-		assertEquals(4.024, videoObjectOutputList.get(0).getEnd(), 5);
+		assertEquals(4.024, videoObjectOutputList.get(0).getEnd(), 1);
 	}
 
 	@Test
@@ -145,8 +145,75 @@ public class StitcherBuilderTest {
 		ffprobe.setDuration(videoObjectOutputList);
 
 		//check video length
-		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 5);
+		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 1);
+	}
 
+	@Test
+	public void testMovieTrim1() throws IOException {
+		String input = getClass().getResource("video1.mp4").getPath();
+		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+
+		List<VideoObject> videoObjectList = new ArrayList<>();
+
+		//settings for main video
+		VideoObject mainVideo = new VideoObject.VideoObjectBuilder(input).setStart(1).setDuration(3).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).createVideoObject();
+		videoObjectList.add(mainVideo);
+
+		//set duration to each video
+		ffprobe.setDuration(videoObjectList);
+
+		//define stitching settings
+		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
+
+		//execute
+		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+		FFmpegJob job = executor.createJob(builder);
+		job.run();
+
+		//add output video
+		List<VideoObject> videoObjectOutputList = new ArrayList<>();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
+		videoObjectOutputList.add(videoObject3);
+
+		//set duration to output video
+		ffprobe.setDuration(videoObjectOutputList);
+
+		//check video length
+		assertEquals(3.02, videoObjectOutputList.get(0).getEnd(), 1);
+	}
+
+	@Test
+	public void testMovieTrim2() throws IOException {
+		String input = getClass().getResource("video1.mp4").getPath();
+		String output = input.substring(0, input.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+
+		List<VideoObject> videoObjectList = new ArrayList<>();
+
+		//settings for main video
+		VideoObject mainVideo = new VideoObject.VideoObjectBuilder(input).setStart(1).setEnd(4).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(2, 1).setLengthUnknown(true).createFadeOut()).createVideoObject();
+		videoObjectList.add(mainVideo);
+
+		//set duration to each video
+		ffprobe.setDuration(videoObjectList);
+
+		//define stitching settings
+		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
+
+		//execute
+		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+		FFmpegJob job = executor.createJob(builder);
+		job.run();
+
+		//add output video
+		List<VideoObject> videoObjectOutputList = new ArrayList<>();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
+		videoObjectOutputList.add(videoObject3);
+
+		//set duration to output video
+		ffprobe.setDuration(videoObjectOutputList);
+
+		//check video length
+		assertEquals(3.02, videoObjectOutputList.get(0).getEnd(), 1);
 	}
 
 	@Test
@@ -193,7 +260,7 @@ public class StitcherBuilderTest {
 		ffprobe.setDuration(videoObjectOutputList);
 
 		//check video length
-		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 5);
+		assertEquals(5.02, videoObjectOutputList.get(0).getEnd(), 1);
 	}
 
 }
