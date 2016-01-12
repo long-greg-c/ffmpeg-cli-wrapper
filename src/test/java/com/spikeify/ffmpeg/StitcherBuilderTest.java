@@ -64,6 +64,49 @@ public class StitcherBuilderTest {
 	}
 
 	@Test
+	public void testStitchVideosDifferentResolution() throws IOException {
+		//initialize videoObjectsList
+		String font = getClass().getResource("Roboto-Regular.ttf").getPath();
+		String input1 = getClass().getResource("video.mp4").getPath();
+		String input2 = getClass().getResource("video1.mp4").getPath();
+		String output = input1.substring(0, input1.lastIndexOf(File.separator)) + File.separator + "output.mp4";
+		List<VideoObject> videoObjectList = new ArrayList<>();
+
+		//settings for video 1
+		TextBox textBox1 = new TextBox.TextBoxBuilder().setColor("black").setHeight(100).setWidth(100).setX(50).setY(50).setOpacity(0.5).createTextBox();
+		Caption caption1 = new Caption.CaptionBuilder(font, "First One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setRepeatY(true).setMovingSpeed(7).setStartPositionOffset(100).setTextBox(textBox1).createCaption();
+		VideoObject videoObject1 = new VideoObject.VideoObjectBuilder(input1).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption1).setResolutionX(1280).setResolutionY(720).createVideoObject();
+		videoObjectList.add(videoObject1);
+
+		//settings for video 2
+		Caption caption2 = new Caption.CaptionBuilder(font, "Second One").setColor("white").setSize(40).setX(50).setY(30).setMovingByY(true).setMovingSpeed(7).setStartPositionOffset(100).createCaption();
+		VideoObject videoObject2 = new VideoObject.VideoObjectBuilder(input2).setFadeIn(new FadeIn.FadeInBuilder(0, 1).createFadeIn()).setFadeOut(new FadeOut.FadeOutBuilder(1, 1).createFadeOut()).setCaption(caption2).setResolutionX(1280).setResolutionY(720).createVideoObject();
+		videoObjectList.add(videoObject2);
+
+		//set duration to each video
+		ffprobe.setDuration(videoObjectList);
+
+		//define stitching settings
+		FFmpegBuilder builder = new FFmpegBuilder().overrideOutputFiles(true).addOutput(output).stitchVideos(videoObjectList).done();
+
+		//execute
+		FFmpegExecutor executor = new FFmpegExecutor(this.ffmpeg, this.ffprobe);
+		FFmpegJob job = executor.createJob(builder);
+		job.run();
+
+		//add output video
+		List<VideoObject> videoObjectOutputList = new ArrayList<>();
+		VideoObject videoObject3 = new VideoObject.VideoObjectBuilder(output).createVideoObject();
+		videoObjectOutputList.add(videoObject3);
+
+		//set duration to output video
+		ffprobe.setDuration(videoObjectOutputList);
+
+		//check video length
+		assertEquals(13.886, videoObjectOutputList.get(0).getEnd(), 1);
+	}
+
+	@Test
 	public void testStitchShorterVideos() throws IOException {
 		//initialize videoObjectsList
 		String input = getClass().getResource("video.mp4").getPath();

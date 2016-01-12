@@ -7,6 +7,7 @@ We added support for (check examples in unit tests):
  - additional transcoding parameters,
  - creating thumbnails from input video,
  - getting a dominant color of created thumbnail (with [Color Thief](https://github.com/SvenWoltmann/color-thief-java)),
+ - trim videos,
  - stitching multiple videos with fade in, fade out effects, text, text box and video overlays. 
 
 ## Requirements 

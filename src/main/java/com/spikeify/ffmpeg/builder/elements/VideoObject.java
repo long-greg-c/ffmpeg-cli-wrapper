@@ -22,8 +22,11 @@ public class VideoObject {
 
 	private List<VideoObject> overlayVideoList;
 
+	private int resolutionX;
+	private int resolutionY;
 
-	private VideoObject(String path, double start, double end, double duration, double videoStartOffset, double overlayX, double overlayY, FadeIn fadeIn, FadeOut fadeOut, List<Caption> captions, Caption caption, List<VideoObject> overlayVideoList) {
+
+	private VideoObject(String path, double start, double end, double duration, double videoStartOffset, double overlayX, double overlayY, FadeIn fadeIn, FadeOut fadeOut, List<Caption> captions, Caption caption, List<VideoObject> overlayVideoList, int resolutionX, int resolutionY) {
 		this.path = path;
 		this.start = start;
 		this.end = end;
@@ -36,6 +39,8 @@ public class VideoObject {
 		this.captions = captions;
 		this.caption = caption;
 		this.overlayVideoList = overlayVideoList;
+		this.resolutionX = resolutionX;
+		this.resolutionY = resolutionY;
 	}
 
 	public String getPath() {
@@ -114,6 +119,14 @@ public class VideoObject {
 		return videoStartOffset;
 	}
 
+	public int getResolutionX() {
+		return resolutionX;
+	}
+
+	public int getResolutionY() {
+		return resolutionY;
+	}
+
 	public static class VideoObjectBuilder {
 		private String path;
 		private double start = -1;
@@ -127,6 +140,8 @@ public class VideoObject {
 		private Caption caption;
 		private List<VideoObject> overlayVideoList;
 		private double videoStartOffset; //used for video overlays.
+		private int resolutionX;
+		private int resolutionY;
 
 		public VideoObjectBuilder(String path) {
 			this.path = path;
@@ -197,8 +212,18 @@ public class VideoObject {
 			return this;
 		}
 
+		public VideoObjectBuilder setResolutionX(int resolutionX) {
+			this.resolutionX = resolutionX;
+			return this;
+		}
+
+		public VideoObjectBuilder setResolutionY(int resolutionY) {
+			this.resolutionY = resolutionY;
+			return this;
+		}
+
 		public VideoObject createVideoObject() {
-			return new VideoObject(path, start, end, duration, videoStartOffset, overlayX, overlayY, fadeIn, fadeOut, captions, caption, overlayVideoList);
+			return new VideoObject(path, start, end, duration, videoStartOffset, overlayX, overlayY, fadeIn, fadeOut, captions, caption, overlayVideoList, resolutionX, resolutionY);
 		}
 
 
