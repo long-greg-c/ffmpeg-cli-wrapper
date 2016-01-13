@@ -26,10 +26,12 @@ public class Caption {
 	private int shadowX;
 	private int shadowY;
 
+	private boolean disableNormalExp;
+
 	private TextBox textBox;
 
-	private Caption(String text, String color, String fontPath, int size, int x, int y, double alpha, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, double borderWidth, String borderColor, String shadowColor, int shadowX, int shadowY, TextBox textBox) {
-		this.text = text;
+	private Caption(String text, String color, String fontPath, int size, int x, int y, double alpha, boolean movingByX, boolean movingByY, double movingSpeed, double startPositionOffset, boolean repeatX, boolean repeatY, double borderWidth, String borderColor, String shadowColor, int shadowX, int shadowY, boolean disableNormalExp, TextBox textBox) {
+		this.text = processText(text);
 		this.color = color;
 		this.fontPath = fontPath;
 		this.size = size;
@@ -47,7 +49,16 @@ public class Caption {
 		this.shadowColor = shadowColor;
 		this.shadowX = shadowX;
 		this.shadowY = shadowY;
+		this.disableNormalExp = disableNormalExp;
 		this.textBox = textBox;
+	}
+
+	private String processText(String text) {
+		return text == null ? "" : text.replace(":", "\\:").replace("\"", "\\\"").replace("'", "\u2019");
+	}
+
+	public boolean getDisableNormalExp() {
+		return disableNormalExp;
 	}
 
 	public String getText() {
@@ -227,11 +238,24 @@ public class Caption {
 		private int shadowX;
 		private int shadowY;
 
+		private boolean disableNormalExp;
+
 		private TextBox textBox;
 
 		public CaptionBuilder(String fontPath, String text) {
 			this.text = text;
 			this.fontPath = fontPath;
+		}
+
+		/**
+		 * If normal expansion is disabled, the text is printed verbatim.
+		 *
+		 * @param disableNormalExp - enable or disable normal expansion
+		 * @return CaptionBuilder
+		 */
+		public CaptionBuilder setDisableNormalExp(boolean disableNormalExp) {
+			this.disableNormalExp = disableNormalExp;
+			return this;
 		}
 
 		public CaptionBuilder setColor(String color) {
@@ -320,7 +344,7 @@ public class Caption {
 		}
 
 		public Caption createCaption() {
-			return new Caption(text, color, fontPath, size, x, y, alpha, movingByX, movingByY, movingSpeed, startPositionOffset, repeatX, repeatY, borderWidth, borderColor, shadowColor, shadowX, shadowY, textBox);
+			return new Caption(text, color, fontPath, size, x, y, alpha, movingByX, movingByY, movingSpeed, startPositionOffset, repeatX, repeatY, borderWidth, borderColor, shadowColor, shadowX, shadowY, disableNormalExp, textBox);
 		}
 	}
 }

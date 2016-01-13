@@ -87,6 +87,11 @@ public class CaptionCommand {
 					}
 				}
 
+				//enable or disable normal expansion. It is enabled by default
+				if(caption.getDisableNormalExp()){
+					this.cmd += ":expansion=none";
+				}
+
 				if (caption.getTextBox() != null) {
 					TextBox textBox = caption.getTextBox();
 //					command example: drawbox=y=50:color=black@0.4:width=iw:height=68:t=max
