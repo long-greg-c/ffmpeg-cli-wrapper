@@ -161,9 +161,6 @@ public class FFmpegBuilder {
 			if (video_num_thumbnails > 0) {
 				args.add("-vframes").add(String.format("%d", video_num_thumbnails));
 			}
-			else if (video_num_thumbnails == -1){
-				args.add("-update 1"); // overwrites the output file
-			}
 		}
 		args.add(override ? "-y" : "-n");
 		Preconditions.checkArgument(!outputs.isEmpty(), "At least one output must be specified");
