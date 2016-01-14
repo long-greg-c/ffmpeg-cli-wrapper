@@ -61,12 +61,12 @@ public class FFmpegBuilder {
 	}
 
 	/**
-	 * create tumbnails from a video
+	 * create thumbnails from a video
 	 *
-	 * @param numThumbnails - number of tumbnails to output
+	 * @param numThumbnails - number of thumbnails to output
 	 * @return FFmpegOutputBuilder
 	 */
-	public FFmpegBuilder setVideoTumbnails(int numThumbnails) {
+	public FFmpegBuilder setVideoThumbnails(int numThumbnails) {
 		this.video_num_thumbnails = numThumbnails;
 		return this;
 	}
@@ -160,6 +160,9 @@ public class FFmpegBuilder {
 
 			if (video_num_thumbnails > 0) {
 				args.add("-vframes").add(String.format("%d", video_num_thumbnails));
+			}
+			else if (video_num_thumbnails == -1){
+				args.add("-update 1"); // overwrites the output file
 			}
 		}
 		args.add(override ? "-y" : "-n");

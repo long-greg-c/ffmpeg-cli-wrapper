@@ -85,7 +85,7 @@ public class FFmpegExecutorTest {
 		builder = new FFmpegBuilder()
 						.setInput(input.replace(".mp4", "-out.mp4"))
 						.overrideOutputFiles(true)
-						.setVideoTumbnails(1)
+						.setVideoThumbnails(1)
 						.addOutput(input.replace(".mp4", "-out.jpg"))
 						.done();
 
