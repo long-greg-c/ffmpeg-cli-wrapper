@@ -16,6 +16,8 @@ import org.apache.commons.lang3.math.Fraction;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -65,6 +67,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 	public String audio_bit_stream_filter;
 	public String custom_parameter;
 	public boolean video_fast_start;
+	public boolean fileNameHasPattern = true;
 
 	public boolean subtitle_enabled = true;
 
@@ -411,6 +414,24 @@ public class FFmpegOutputBuilder implements Cloneable {
 	}
 
 	/**
+	 *
+	 * If set to false the filename will be interpreted as just a filename, not a pattern,
+	 * and the corresponding file will be continuously overwritten with new images.
+	 *
+	 * Default value is True
+	 *
+	 * Only used when the output filename is an image format, bmp, png, gif or jpg.
+	 *
+	 * @param fileNameHasPattern
+	 * @return this
+     */
+	public FFmpegOutputBuilder setFileNameHasPattern(boolean fileNameHasPattern){
+		this.fileNameHasPattern = fileNameHasPattern;
+		return this;
+	}
+
+
+	/**
 	 * Optional custom parameter passing to FFMPEG command line
 	 *
 	 * @param customParameter Custom parameter
@@ -650,6 +671,10 @@ public class FFmpegOutputBuilder implements Cloneable {
 			args.add(custom_parameter);
 		}
 
+		if (isImageExtension(filename) && !fileNameHasPattern ){
+			args.add("-update").add("1");
+		}
+
 		// Output
 		if (pass == 1) {
 			if (save_pass1) {
@@ -664,6 +689,18 @@ public class FFmpegOutputBuilder implements Cloneable {
 		}
 
 		return args.build();
+	}
+
+	/**
+	 * Validate if filename extension is an image format
+	 * @param filename The filename to validate
+	 * @return true valid image extension , false invalid image extension
+	 */
+	private boolean isImageExtension(final String filename){
+		String IMAGE_PATTERN =	"([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
+		Pattern pattern = Pattern.compile(IMAGE_PATTERN);
+		Matcher matcher = pattern.matcher(filename);
+		return matcher.matches();
 	}
 
 	@Override
