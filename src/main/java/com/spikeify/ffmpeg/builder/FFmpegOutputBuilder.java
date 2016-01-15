@@ -697,7 +697,7 @@ public class FFmpegOutputBuilder implements Cloneable {
 	 * @return true valid image extension , false invalid image extension
 	 */
 	private boolean isImageExtension(final String filename){
-		String IMAGE_PATTERN =	"([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
+		String IMAGE_PATTERN =	"((.*?)\\.(?:jpg|png|gif|bmp)$)";
 		Pattern pattern = Pattern.compile(IMAGE_PATTERN);
 		Matcher matcher = pattern.matcher(filename);
 		return matcher.matches();
